@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safari Tours - Polar Vista Safaris</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .page-hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><rect fill="%23c49a6c" width="1200" height="400"/></svg>');
+            background-size: cover;
+            background-position: center;
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            margin-top: 70px;
+        }
+        
+        .page-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .tours-main {
+            padding: 5rem 2rem;
+            background: var(--light-bg);
+        }
+        
+        .tour-detail-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 30px var(--shadow);
+            margin-bottom: 3rem;
+        }
+        
+        .tour-detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+        }
+        
+        .tour-detail-image {
+            height: 100%;
+            min-height: 400px;
+            background: linear-gradient(135deg, var(--primary-brown), var(--secondary-brown));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8rem;
+            position: relative;
+        }
+        
+        .tour-detail-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .tour-detail-content {
+            padding: 3rem;
+        }
+        
+        .tour-detail-content h2 {
+            text-align: left;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+        
+        .tour-price-big {
+            font-size: 2.5rem;
+            color: var(--primary-green);
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .tour-duration {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .tour-description {
+            color: var(--text-light);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+        
+        .tour-highlights {
+            margin-bottom: 2rem;
+        }
+        
+        .tour-highlights h3 {
+            color: var(--primary-brown);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .tour-highlights ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .tour-highlights li {
+            padding: 0.5rem 0;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .tour-highlights li::before {
+            content: '✓';
+            color: var(--primary-green);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .tour-includes {
+            background: var(--light-bg);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+        
+        .tour-includes h4 {
+            color: var(--primary-brown);
+            margin-bottom: 1rem;
+        }
+        
+        .includes-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .includes-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-dark);
+            font-size: 0.95rem;
+        }
+        
+        @media (max-width: 968px) {
+            .tour-detail-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .includes-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .page-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .tour-detail-content {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="logo.png" alt="Polar Vista Safaris" class="logo-img">
+                <span>Polar Vista Safaris</span>
+            </div>
+            <button class="mobile-menu-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="tours.html" class="active">Tours</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Page Hero -->
+    <section class="page-hero">
+        <div>
+            <h1>Our Safari Packages</h1>
+            <p>Choose Your Perfect African Adventure</p>
+        </div>
+    </section>
+
+    <!-- Tours Main Section -->
+    <section class="tours-main">
+        <div class="container">
+            
+            <!-- Tour 1: Classic Savanna Safari -->
+            <div class="tour-detail-card">
+                <div class="tour-detail-grid">
+                    <div class="tour-detail-image">
+                        <img src="images/safari-1.jpg" alt="Classic Savanna Safari" onerror="this.style.display='none'; this.parentElement.innerHTML='🦁';">
+                    </div>
+                    <div class="tour-detail-content">
+                        <h2>Classic Savanna Safari</h2>
+                        <div class="tour-price-big">$2,499 per person</div>
+                        <div class="tour-duration">⏱️ 5 Days / 4 Nights</div>
+                        <p class="tour-description">
+                            Experience the essence of African wildlife on this classic safari adventure. Witness the majestic Big Five in their natural habitat across Tanzania's most iconic national parks. This carefully crafted itinerary offers the perfect balance of game drives, relaxation, and cultural experiences.
+                        </p>
+                        
+                        <div class="tour-highlights">
+                            <h3>Tour Highlights</h3>
+                            <ul>
+                                <li>Big Five wildlife viewing</li>
+                                <li>Serengeti National Park game drives</li>
+                                <li>Ngorongoro Crater exploration</li>
+                                <li>Visit to Maasai village</li>
+                                <li>Sunset and sunrise game drives</li>
+                                <li>Professional safari guide throughout</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tour-includes">
+                            <h4>What's Included</h4>
+                            <div class="includes-grid">
+                                <div class="includes-item">✓ Luxury lodge accommodation</div>
+                                <div class="includes-item">✓ All meals included</div>
+                                <div class="includes-item">✓ Airport transfers</div>
+                                <div class="includes-item">✓ Park entrance fees</div>
+                                <div class="includes-item">✓ 4x4 safari vehicle</div>
+                                <div class="includes-item">✓ Bottled water daily</div>
+                            </div>
+                        </div>
+                        
+                        <a href="contact.html" class="cta-button">Book This Safari</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tour 2: Giraffe Valley Explorer -->
+            <div class="tour-detail-card">
+                <div class="tour-detail-grid">
+                    <div class="tour-detail-content">
+                        <h2>Giraffe Valley Explorer</h2>
+                        <div class="tour-price-big">$3,299 per person</div>
+                        <div class="tour-duration">⏱️ 7 Days / 6 Nights</div>
+                        <p class="tour-description">
+                            Immerse yourself in a comprehensive wildlife photography safari that takes you through diverse ecosystems. Perfect for photography enthusiasts and nature lovers, this extended adventure offers ample time to capture stunning images and observe animal behavior up close.
+                        </p>
+                        
+                        <div class="tour-highlights">
+                            <h3>Tour Highlights</h3>
+                            <ul>
+                                <li>Photography-focused game drives</li>
+                                <li>Visit to giraffe conservation center</li>
+                                <li>Lake Manyara birdwatching</li>
+                                <li>Tarangire elephant herds</li>
+                                <li>Walking safari experience</li>
+                                <li>Professional photography guidance</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tour-includes">
+                            <h4>What's Included</h4>
+                            <div class="includes-grid">
+                                <div class="includes-item">✓ Premium eco-lodges</div>
+                                <div class="includes-item">✓ All meals & beverages</div>
+                                <div class="includes-item">✓ Airport transfers</div>
+                                <div class="includes-item">✓ All park fees</div>
+                                <div class="includes-item">✓ Photography guide</div>
+                                <div class="includes-item">✓ Equipment storage</div>
+                            </div>
+                        </div>
+                        
+                        <a href="contact.html" class="cta-button">Book This Safari</a>
+                    </div>
+                    <div class="tour-detail-image">
+                        <img src="images/safari-2.jpg" alt="Giraffe Valley Explorer" onerror="this.style.display='none'; this.parentElement.innerHTML='🦒';">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tour 3: Wilderness Expedition -->
+            <div class="tour-detail-card">
+                <div class="tour-detail-grid">
+                    <div class="tour-detail-image">
+                        <img src="images/safari-3.jpg" alt="Wilderness Expedition" onerror="this.style.display='none'; this.parentElement.innerHTML='🐘';">
+                    </div>
+                    <div class="tour-detail-content">
+                        <h2>Wilderness Expedition</h2>
+                        <div class="tour-price-big">$4,999 per person</div>
+                        <div class="tour-duration">⏱️ 10 Days / 9 Nights</div>
+                        <p class="tour-description">
+                            The ultimate safari experience covering multiple national parks and diverse landscapes. This premium expedition is perfect for those seeking an in-depth exploration of East Africa's wildlife and ecosystems, combining luxury accommodations with authentic wilderness experiences.
+                        </p>
+                        
+                        <div class="tour-highlights">
+                            <h3>Tour Highlights</h3>
+                            <ul>
+                                <li>Multi-park comprehensive safari</li>
+                                <li>Serengeti & Ngorongoro Crater</li>
+                                <li>Exclusive bush camping night</li>
+                                <li>Hot air balloon safari</li>
+                                <li>Private game drives</li>
+                                <li>Cultural immersion experiences</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tour-includes">
+                            <h4>What's Included</h4>
+                            <div class="includes-grid">
+                                <div class="includes-item">✓ Luxury tented camps</div>
+                                <div class="includes-item">✓ Gourmet meals</div>
+                                <div class="includes-item">✓ Private transfers</div>
+                                <div class="includes-item">✓ All entrance fees</div>
+                                <div class="includes-item">✓ Balloon safari</div>
+                                <div class="includes-item">✓ Bush dinner experience</div>
+                            </div>
+                        </div>
+                        
+                        <a href="contact.html" class="cta-button">Book This Safari</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Tours -->
+            <div class="tour-detail-card">
+                <div class="tour-detail-grid">
+                    <div class="tour-detail-content">
+                        <h2>Family Safari Adventure</h2>
+                        <div class="tour-price-big">$2,799 per person</div>
+                        <div class="tour-duration">⏱️ 6 Days / 5 Nights</div>
+                        <p class="tour-description">
+                            Specially designed for families with children, this safari combines wildlife viewing with educational activities and family-friendly accommodations. Create lasting memories as you introduce your children to the wonders of African wildlife.
+                        </p>
+                        
+                        <div class="tour-highlights">
+                            <h3>Tour Highlights</h3>
+                            <ul>
+                                <li>Child-friendly game drives</li>
+                                <li>Junior ranger program</li>
+                                <li>Interactive wildlife education</li>
+                                <li>Family accommodation rooms</li>
+                                <li>Swimming pool facilities</li>
+                                <li>Cultural storytelling sessions</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tour-includes">
+                            <h4>What's Included</h4>
+                            <div class="includes-grid">
+                                <div class="includes-item">✓ Family suites</div>
+                                <div class="includes-item">✓ Kid-friendly meals</div>
+                                <div class="includes-item">✓ All transfers</div>
+                                <div class="includes-item">✓ Park fees</div>
+                                <div class="includes-item">✓ Activity kits for kids</div>
+                                <div class="includes-item">✓ Childcare available</div>
+                            </div>
+                        </div>
+                        
+                        <a href="contact.html" class="cta-button">Book This Safari</a>
+                    </div>
+                    <div class="tour-detail-image">
+                        <img src="images/safari-4.jpg" alt="Family Safari" onerror="this.style.display='none'; this.parentElement.innerHTML='🦓';">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Custom Safari Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Need a Custom Safari Package?</h2>
+            <p>We specialize in creating personalized safaris tailored to your interests, budget, and schedule</p>
+            <div class="cta-buttons">
+                <a href="contact.html" class="cta-button">Request Custom Quote</a>
+                <a href="gallery.html" class="btn-secondary-white">View Our Gallery</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Polar Vista Safaris</h3>
+                    <p>Explore the wild, discover the wonders</p>
+                    <p>Creating unforgettable African safari experiences since 2009.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook">📘</a>
+                        <a href="#" aria-label="Instagram">📷</a>
+                        <a href="#" aria-label="Twitter">🐦</a>
+                        <a href="#" aria-label="YouTube">📹</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="tours.html">Safari Tours</a></li>
+                        <li><a href="gallery.html">Photo Gallery</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Safari Packages</h3>
+                    <ul>
+                        <li><a href="tours.html">Classic Savanna Safari</a></li>
+                        <li><a href="tours.html">Giraffe Valley Explorer</a></li>
+                        <li><a href="tours.html">Wilderness Expedition</a></li>
+                        <li><a href="tours.html">Custom Packages</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li>📧 info@polarvistasafaris.com</li>
+                        <li>📱 +255 123 456 7890</li>
+                        <li>📍 Arusha, Tanzania, East Africa</li>
+                        <li>🕐 Mon-Sat: 8AM - 6PM EAT</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Polar Vista Safaris. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

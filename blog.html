@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safari Blog - Polar Vista Safaris</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .page-hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><rect fill="%23c49a6c" width="1200" height="400"/></svg>');
+            background-size: cover;
+            background-position: center;
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            margin-top: 70px;
+        }
+        
+        .page-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .blog-main {
+            padding: 5rem 2rem;
+            background: var(--light-bg);
+        }
+        
+        .blog-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+        }
+        
+        .blog-posts {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .blog-post-full {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px var(--shadow);
+        }
+        
+        .blog-post-image {
+            width: 100%;
+            height: 350px;
+            overflow: hidden;
+        }
+        
+        .blog-post-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        
+        .blog-post-full:hover .blog-post-image img {
+            transform: scale(1.1);
+        }
+        
+        .blog-post-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-brown), var(--secondary-brown));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 6rem;
+            color: white;
+        }
+        
+        .blog-post-content-full {
+            padding: 2rem;
+        }
+        
+        .blog-post-meta-full {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .blog-post-meta-full span {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        
+        .blog-post-content-full h2 {
+            text-align: left;
+            color: var(--primary-brown);
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+        
+        .blog-post-content-full p {
+            color: var(--text-light);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+        
+        .blog-sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+        
+        .sidebar-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px var(--shadow);
+            margin-bottom: 2rem;
+        }
+        
+        .sidebar-section h3 {
+            color: var(--primary-brown);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+        
+        .category-list {
+            list-style: none;
+        }
+        
+        .category-list li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .category-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .category-list a {
+            color: var(--text-dark);
+            text-decoration: none;
+            display: flex;
+            justify-content: space-between;
+            transition: color 0.3s;
+        }
+        
+        .category-list a:hover {
+            color: var(--primary-green);
+        }
+        
+        .category-count {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        .recent-posts-list {
+            list-style: none;
+        }
+        
+        .recent-post-item {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .recent-post-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .recent-post-thumb {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        
+        .recent-post-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .recent-post-info h4 {
+            color: var(--primary-brown);
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+        
+        .recent-post-info span {
+            color: var(--text-light);
+            font-size: 0.85rem;
+        }
+        
+        .tags-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .tag {
+            background: var(--light-bg);
+            color: var(--primary-brown);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .tag:hover {
+            background: var(--primary-green);
+            color: white;
+        }
+        
+        @media (max-width: 968px) {
+            .blog-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .blog-sidebar {
+                position: static;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .page-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .blog-post-content-full h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="logo.png" alt="Polar Vista Safaris" class="logo-img">
+                <span>Polar Vista Safaris</span>
+            </div>
+            <button class="mobile-menu-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="tours.html">Tours</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="blog.html" class="active">Blog</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Page Hero -->
+    <section class="page-hero">
+        <div>
+            <h1>Safari Blog</h1>
+            <p>Stories, Tips, and Insights from the Wild</p>
+        </div>
+    </section>
+
+    <!-- Blog Main Section -->
+    <section class="blog-main">
+        <div class="blog-container">
+            <!-- Blog Posts -->
+            <div class="blog-posts">
+                
+                <!-- Blog Post 1 -->
+                <article class="blog-post-full">
+                    <div class="blog-post-image">
+                        <img src="images/blog/migration.jpg" alt="Great Migration" onerror="this.parentElement.querySelector('.blog-post-placeholder').style.display='flex'; this.style.display='none';">
+                        <div class="blog-post-placeholder">🦓</div>
+                    </div>
+                    <div class="blog-post-content-full">
+                        <div class="blog-post-meta-full">
+                            <span>📅 January 20, 2026</span>
+                            <span>👤 James Mwangi</span>
+                            <span>🏷️ Wildlife</span>
+                            <span>⏱️ 5 min read</span>
+                        </div>
+                        <h2>The Great Migration: Best Times to Visit</h2>
+                        <p>The Great Migration is one of the most spectacular wildlife events on Earth. Over two million wildebeest, zebras, and gazelles make their annual journey across the Serengeti-Mara ecosystem in search of fresh grazing. This natural phenomenon is driven by ancient instincts and the seasonal patterns of rain and grass growth.</p>
+                        <p>The migration follows a roughly circular route throughout the year. From January to March, the herds are in the southern Serengeti where calving season takes place. April to June sees the herds moving northwest, and July to October is when the dramatic river crossings occur. November and December bring the herds back south to complete the circle.</p>
+                        <p>Planning your safari around the migration requires understanding these patterns, but remember that nature doesn't follow a strict schedule. Weather patterns and local conditions can affect timing, which is why working with experienced guides is crucial for the best viewing opportunities.</p>
+                        <a href="#" class="read-more">Continue Reading →</a>
+                    </div>
+                </article>
+
+                <!-- Blog Post 2 -->
+                <article class="blog-post-full">
+                    <div class="blog-post-image">
+                        <img src="images/blog/photography.jpg" alt="Safari Photography" onerror="this.parentElement.querySelector('.blog-post-placeholder').style.display='flex'; this.style.display='none';">
+                        <div class="blog-post-placeholder">📸</div>
+                    </div>
+                    <div class="blog-post-content-full">
+                        <div class="blog-post-meta-full">
+                            <span>📅 January 15, 2026</span>
+                            <span>👤 David Omondi</span>
+                            <span>🏷️ Photography</span>
+                            <span>⏱️ 7 min read</span>
+                        </div>
+                        <h2>10 Tips for Stunning Safari Photography</h2>
+                        <p>Capturing the perfect wildlife photograph requires a combination of technical skill, patience, and understanding animal behavior. Whether you're a beginner or experienced photographer, these essential tips will help you create stunning images during your safari adventure.</p>
+                        <p>First and foremost, understand your camera settings. Master manual mode, especially shutter speed and aperture. For action shots, use shutter speeds of at least 1/1000s. For portraits, a wide aperture (f/2.8-f/5.6) creates beautiful background blur. Golden hour lighting—the first and last hours of sunlight—produces the most dramatic and flattering illumination for wildlife photography.</p>
+                        <p>Composition is equally important as technical settings. Use the rule of thirds, leave space in the direction the animal is looking, and get down to eye level with your subjects whenever possible. Remember, the best camera is the one you have with you, so don't let equipment limitations stop you from trying!</p>
+                        <a href="#" class="read-more">Continue Reading →</a>
+                    </div>
+                </article>
+
+                <!-- Blog Post 3 -->
+                <article class="blog-post-full">
+                    <div class="blog-post-image">
+                        <img src="images/blog/conservation.jpg" alt="Conservation Efforts" onerror="this.parentElement.querySelector('.blog-post-placeholder').style.display='flex'; this.style.display='none';">
+                        <div class="blog-post-placeholder">🌍</div>
+                    </div>
+                    <div class="blog-post-content-full">
+                        <div class="blog-post-meta-full">
+                            <span>📅 January 10, 2026</span>
+                            <span>👤 Grace Wanjiru</span>
+                            <span>🏷️ Conservation</span>
+                            <span>⏱️ 6 min read</span>
+                        </div>
+                        <h2>How Safari Tourism Supports Conservation</h2>
+                        <p>Responsible safari tourism plays a vital role in wildlife conservation across Africa. When done right, tourism provides economic incentives for local communities to protect wildlife and natural habitats rather than converting land for agriculture or other uses that may harm ecosystems.</p>
+                        <p>Tourism revenue directly funds anti-poaching patrols, habitat restoration, and wildlife monitoring programs. In many parks, entrance fees and lodge payments support ranger salaries, equipment, and conservation initiatives. Additionally, tourism creates jobs for local communities, from guides and drivers to lodge staff and artisans, providing alternatives to activities that might threaten wildlife.</p>
+                        <p>At Polar Vista Safaris, we're committed to sustainable practices. A portion of every safari booking goes directly to conservation projects and community development initiatives. We work closely with local organizations to ensure our safaris leave a positive impact on both wildlife and people.</p>
+                        <a href="#" class="read-more">Continue Reading →</a>
+                    </div>
+                </article>
+
+            </div>
+
+            <!-- Sidebar -->
+            <aside class="blog-sidebar">
+                <!-- Categories -->
+                <div class="sidebar-section">
+                    <h3>Categories</h3>
+                    <ul class="category-list">
+                        <li>
+                            <a href="#">
+                                <span>Wildlife</span>
+                                <span class="category-count">(24)</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span>Photography</span>
+                                <span class="category-count">(18)</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span>Conservation</span>
+                                <span class="category-count">(15)</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span>Travel Tips</span>
+                                <span class="category-count">(21)</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span>Safari Guides</span>
+                                <span class="category-count">(12)</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span>Bird Watching</span>
+                                <span class="category-count">(9)</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Recent Posts -->
+                <div class="sidebar-section">
+                    <h3>Recent Posts</h3>
+                    <ul class="recent-posts-list">
+                        <li class="recent-post-item">
+                            <div class="recent-post-thumb">
+                                <div style="width:100%;height:100%;background:linear-gradient(135deg,#c49a6c,#8b5a3c);display:flex;align-items:center;justify-content:center;font-size:2rem;">🦁</div>
+                            </div>
+                            <div class="recent-post-info">
+                                <h4>Understanding Lion Pride Dynamics</h4>
+                                <span>January 22, 2026</span>
+                            </div>
+                        </li>
+                        <li class="recent-post-item">
+                            <div class="recent-post-thumb">
+                                <div style="width:100%;height:100%;background:linear-gradient(135deg,#c49a6c,#8b5a3c);display:flex;align-items:center;justify-content:center;font-size:2rem;">🐘</div>
+                            </div>
+                            <div class="recent-post-info">
+                                <h4>Elephant Communication Secrets</h4>
+                                <span>January 18, 2026</span>
+                            </div>
+                        </li>
+                        <li class="recent-post-item">
+                            <div class="recent-post-thumb">
+                                <div style="width:100%;height:100%;background:linear-gradient(135deg,#c49a6c,#8b5a3c);display:flex;align-items:center;justify-content:center;font-size:2rem;">🦒</div>
+                            </div>
+                            <div class="recent-post-info">
+                                <h4>Best Time to See Giraffes</h4>
+                                <span>January 12, 2026</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Tags -->
+                <div class="sidebar-section">
+                    <h3>Popular Tags</h3>
+                    <div class="tags-list">
+                        <a href="#" class="tag">Big Five</a>
+                        <a href="#" class="tag">Serengeti</a>
+                        <a href="#" class="tag">Migration</a>
+                        <a href="#" class="tag">Photography</a>
+                        <a href="#" class="tag">Conservation</a>
+                        <a href="#" class="tag">Safari Tips</a>
+                        <a href="#" class="tag">Wildlife</a>
+                        <a href="#" class="tag">Tanzania</a>
+                        <a href="#" class="tag">Birds</a>
+                        <a href="#" class="tag">Camping</a>
+                    </div>
+                </div>
+
+                <!-- Newsletter -->
+                <div class="sidebar-section">
+                    <h3>Newsletter</h3>
+                    <p style="color: var(--text-light); margin-bottom: 1rem; font-size: 0.95rem;">Subscribe to receive safari tips and special offers!</p>
+                    <form style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <input type="email" placeholder="Your email" style="padding: 0.8rem; border: 2px solid #ddd; border-radius: 8px; font-size: 0.95rem;">
+                        <button type="submit" class="cta-button" style="width: 100%; padding: 0.8rem;">Subscribe</button>
+                    </form>
+                </div>
+            </aside>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to Experience These Adventures Yourself?</h2>
+            <p>Book your dream safari and create your own stories to share</p>
+            <div class="cta-buttons">
+                <a href="tours.html" class="cta-button">View Safari Packages</a>
+                <a href="contact.html" class="btn-secondary-white">Contact Us</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Polar Vista Safaris</h3>
+                    <p>Explore the wild, discover the wonders</p>
+                    <p>Creating unforgettable African safari experiences since 2009.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook">📘</a>
+                        <a href="#" aria-label="Instagram">📷</a>
+                        <a href="#" aria-label="Twitter">🐦</a>
+                        <a href="#" aria-label="YouTube">📹</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="tours.html">Safari Tours</a></li>
+                        <li><a href="gallery.html">Photo Gallery</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Safari Packages</h3>
+                    <ul>
+                        <li><a href="tours.html">Classic Savanna Safari</a></li>
+                        <li><a href="tours.html">Giraffe Valley Explorer</a></li>
+                        <li><a href="tours.html">Wilderness Expedition</a></li>
+                        <li><a href="tours.html">Custom Packages</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li>📧 info@polarvistasafaris.com</li>
+                        <li>📱 +255 123 456 7890</li>
+                        <li>📍 Arusha, Tanzania, East Africa</li>
+                        <li>🕐 Mon-Sat: 8AM - 6PM EAT</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Polar Vista Safaris. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Gallery - Polar Vista Safaris</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .page-hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><rect fill="%23c49a6c" width="1200" height="400"/></svg>');
+            background-size: cover;
+            background-position: center;
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            margin-top: 70px;
+        }
+        
+        .page-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .gallery-main {
+            padding: 5rem 2rem;
+            background: var(--light-bg);
+        }
+        
+        .gallery-filters {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 0.8rem 2rem;
+            border: 2px solid var(--primary-brown);
+            background: white;
+            color: var(--primary-brown);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--primary-brown);
+            color: white;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .gallery-item {
+            position: relative;
+            height: 350px;
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0 5px 20px var(--shadow);
+            transition: transform 0.3s;
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .gallery-item-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-brown), var(--secondary-brown));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+        }
+        
+        .gallery-item-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            padding: 2rem 1.5rem 1.5rem;
+            color: white;
+            transform: translateY(100%);
+            transition: transform 0.3s;
+        }
+        
+        .gallery-item:hover .gallery-item-overlay {
+            transform: translateY(0);
+        }
+        
+        .gallery-item-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .gallery-item-desc {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .upload-section {
+            background: white;
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px var(--shadow);
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            text-align: center;
+        }
+        
+        .upload-section h3 {
+            color: var(--primary-brown);
+            margin-bottom: 1rem;
+        }
+        
+        .upload-section p {
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+        
+        .upload-area {
+            border: 3px dashed var(--primary-brown);
+            border-radius: 15px;
+            padding: 3rem 2rem;
+            background: var(--light-bg);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .upload-area:hover {
+            background: #f0e6d6;
+            border-color: var(--primary-green);
+        }
+        
+        .upload-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        
+        .upload-text {
+            color: var(--text-dark);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .upload-hint {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        #fileInput {
+            display: none;
+        }
+        
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .lightbox.active {
+            display: flex;
+        }
+        
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+        }
+        
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 90vh;
+            border-radius: 10px;
+        }
+        
+        .lightbox-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            background: rgba(0,0,0,0.5);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-size: 3rem;
+            cursor: pointer;
+            background: rgba(0,0,0,0.5);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .lightbox-prev {
+            left: -80px;
+        }
+        
+        .lightbox-next {
+            right: -80px;
+        }
+        
+        @media (max-width: 768px) {
+            .page-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .lightbox-nav {
+                width: 40px;
+                height: 40px;
+                font-size: 2rem;
+            }
+            
+            .lightbox-prev {
+                left: 10px;
+            }
+            
+            .lightbox-next {
+                right: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="logo.png" alt="Polar Vista Safaris" class="logo-img">
+                <span>Polar Vista Safaris</span>
+            </div>
+            <button class="mobile-menu-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="tours.html">Tours</a></li>
+                <li><a href="gallery.html" class="active">Gallery</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Page Hero -->
+    <section class="page-hero">
+        <div>
+            <h1>Safari Gallery</h1>
+            <p>Captured Moments from the Wild</p>
+        </div>
+    </section>
+
+    <!-- Gallery Main Section -->
+    <section class="gallery-main">
+        <div class="container">
+            
+            <!-- Upload Section -->
+            <div class="upload-section">
+                <h3>Share Your Safari Photos</h3>
+                <p>Been on a safari with us? Share your amazing wildlife photos with our community!</p>
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">📸</div>
+                    <div class="upload-text">Click to upload or drag and drop</div>
+                    <div class="upload-hint">PNG, JPG, JPEG up to 10MB</div>
+                </div>
+                <input type="file" id="fileInput" accept="image/*" multiple>
+            </div>
+            
+            <!-- Gallery Filters -->
+            <div class="gallery-filters">
+                <button class="filter-btn active" data-filter="all">All Photos</button>
+                <button class="filter-btn" data-filter="wildlife">Wildlife</button>
+                <button class="filter-btn" data-filter="landscapes">Landscapes</button>
+                <button class="filter-btn" data-filter="birds">Birds</button>
+                <button class="filter-btn" data-filter="sunset">Sunsets</button>
+            </div>
+
+            <!-- Gallery Grid -->
+            <div class="gallery-grid" id="galleryGrid">
+                <!-- Wildlife -->
+                <div class="gallery-item" data-category="wildlife">
+                    <img src="images/gallery/lion-pride.jpg" alt="Lion Pride" onerror="this.parentElement.querySelector('.gallery-item-placeholder').style.display='flex'; this.style.display='none';">
+                    <div class="gallery-item-placeholder">
+                        🦁
+                        <span style="font-size: 1rem; margin-top: 1rem;">Lion Pride</span>
+                    </div>
+                    <div class="gallery-item-overlay">
+                        <div class="gallery-item-title">Lion Pride</div>
+                        <div class="gallery-item-desc">Serengeti National Park</div>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="wildlife">
+                    <img src="images/gallery/elephants.jpg" alt="Elephant Herd" onerror="this.parentElement.querySelector('.gallery-item-placeholder').style.display='flex'; this.style.display='none';">
+                    <div class="gallery-item-placeholder">
+                        🐘
+                        <span style="font-size: 1rem; margin-top: 1rem;">Elephant Herd</span>
+                    </div>
+                    <div class="gallery-item-overlay">
+                        <div class="gallery-item-title">Elephant Herd</div>
+                        <div class="gallery-item-desc">Tarangire National Park</div>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="wildlife">
+                    <img src="images/gallery/giraffe.jpg" alt="Giraffe at Sunset" onerror="this.parentElement.querySelector('.gallery-item-placeholder').style.display='flex'; this.style.display='none';">
+                    <div class="gallery-item-placeholder">
+                        🦒
+                        <span style="font-size: 1rem; margin-top: 1rem;">Giraffe</span>
+                    </div>
+                    <div class="gallery-item-overlay">
+                        <div class="gallery-item-title">Giraffe at Sunset</div>
+                        <div class="gallery-item-desc">Lake Manyara</div>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="wildlife">
+                    <img src="images/gallery/leopard.jpg" alt="Leopard in Tree" onerror="this.parentElement.querySelector('.gallery-item-placeholder').style.display='flex'; this.style.display='none';">
+                    <div class="gallery-item-placeholder">
+                        🐆
+                        <span style="font-size: 1rem; margin-top: 1rem;">Leopard</span>
+                    </div>
+                    <div class="gallery-item-overlay">
+                        <div class="gallery-item-title">Leopard in Tree</div>
+                        <div class="gallery-item-desc">Ngorongoro Crater</div>
+                    </div>
+                </div>
+
+                <!-- Landscapes -->
+                <div class="gallery-item" data-category="landscapes sunset">
+                    <img src="images/gallery/savanna-sunset.jpg" alt="Savanna Sunset" onerror="this.parentElement.querySelector('.gallery-item-placeholder').style.display='flex'; this.style.display='none';">
+                    <div class="gallery-item-placeholder">
+                        🌅
+                        <span style="font-size: 1rem; margin-top: 1rem;">Savanna Sunset</span>
+                    </div>
+                    <div class="gallery-item-overlay">
+                        <div class="gallery-item-title">Savanna Sunset</div>
+                        <div class="gallery-item-desc">Serengeti Plains</div>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="landscapes">
+                    <img src="images/gallery/crater.jpg" alt="Ngorongoro Crater" onerror="this.parentElement.querySelector('.gallery-item-placeholder').style.display='flex'; this.style.display='none';">
+                    <div class="gallery-item-placeholder">
+                        🏔️
+                        <span style="font-size: 1rem; margin-top: 1rem;">Crater View</span>
+                    </div>
+                    <div class="gallery-item-overlay">
+                        <div class="gallery-item-title">Ngorongoro Crater</div>
+                        <div class="gallery-item-desc">Aerial View</div>
+                    </div>
+                </div>
+
+                <!-- Birds -->
+                <div class="gallery-item" data-category="birds">
+                    <img src="images/gallery/flamingos.jpg" alt="Flamingos" onerror="this.parentElement.querySelector('.gallery-item-placeholder').style.display='flex'; this.style.display='none';">
+                    <div class="gallery-item-placeholder">
+                        🦩
+                        <span style="font-size: 1rem; margin-top: 1rem;">Flamingos</span>
+                    </div>
+                    <div class="gallery-item-overlay">
+                        <div class="gallery-item-title">Flamingo Flock</div>
+                        <div class="gallery-item-desc">Lake Natron</div>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="birds">
+                    <img src="images/gallery/eagle.jpg" alt="African Fish Eagle" onerror="this.parentElement.querySelector('.gallery-item-placeholder').style.display='flex'; this.style.display='none';">
+                    <div class="gallery-item-placeholder">
+                        🦅
+                        <span style="font-size: 1rem; margin-top: 1rem;">Fish Eagle</span>
+                    </div>
+                    <div class="gallery-item-overlay">
+                        <div class="gallery-item-title">African Fish Eagle</div>
+                        <div class="gallery-item-desc">Lake Manyara</div>
+                    </div>
+                </div>
+
+                <!-- More Wildlife -->
+                <div class="gallery-item" data-category="wildlife">
+                    <img src="images/gallery/zebras.jpg" alt="Zebra Migration" onerror="this.parentElement.querySelector('.gallery-item-placeholder').style.display='flex'; this.style.display='none';">
+                    <div class="gallery-item-placeholder">
+                        🦓
+                        <span style="font-size: 1rem; margin-top: 1rem;">Zebras</span>
+                    </div>
+                    <div class="gallery-item-overlay">
+                        <div class="gallery-item-title">Zebra Migration</div>
+                        <div class="gallery-item-desc">Great Migration</div>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="wildlife">
+                    <img src="images/gallery/rhino.jpg" alt="Black Rhino" onerror="this.parentElement.querySelector('.gallery-item-placeholder').style.display='flex'; this.style.display='none';">
+                    <div class="gallery-item-placeholder">
+                        🦏
+                        <span style="font-size: 1rem; margin-top: 1rem;">Rhino</span>
+                    </div>
+                    <div class="gallery-item-overlay">
+                        <div class="gallery-item-title">Black Rhino</div>
+                        <div class="gallery-item-desc">Conservation Area</div>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="wildlife">
+                    <img src="images/gallery/cheetah.jpg" alt="Cheetah" onerror="this.parentElement.querySelector('.gallery-item-placeholder').style.display='flex'; this.style.display='none';">
+                    <div class="gallery-item-placeholder">
+                        🐆
+                        <span style="font-size: 1rem; margin-top: 1rem;">Cheetah</span>
+                    </div>
+                    <div class="gallery-item-overlay">
+                        <div class="gallery-item-title">Cheetah on the Hunt</div>
+                        <div class="gallery-item-desc">Serengeti Plains</div>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="sunset landscapes">
+                    <img src="images/gallery/acacia-sunset.jpg" alt="Acacia Sunset" onerror="this.parentElement.querySelector('.gallery-item-placeholder').style.display='flex'; this.style.display='none';">
+                    <div class="gallery-item-placeholder">
+                        🌳
+                        <span style="font-size: 1rem; margin-top: 1rem;">Acacia Sunset</span>
+                    </div>
+                    <div class="gallery-item-overlay">
+                        <div class="gallery-item-title">Acacia Sunset</div>
+                        <div class="gallery-item-desc">Classic African Scene</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <div class="lightbox-close" id="lightboxClose">×</div>
+            <div class="lightbox-nav lightbox-prev" id="lightboxPrev">‹</div>
+            <img src="" alt="Gallery Image" id="lightboxImg">
+            <div class="lightbox-nav lightbox-next" id="lightboxNext">›</div>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to Create Your Own Safari Memories?</h2>
+            <p>Join us on an unforgettable journey and capture your own stunning wildlife moments</p>
+            <div class="cta-buttons">
+                <a href="tours.html" class="cta-button">View Safari Packages</a>
+                <a href="contact.html" class="btn-secondary-white">Get in Touch</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Polar Vista Safaris</h3>
+                    <p>Explore the wild, discover the wonders</p>
+                    <p>Creating unforgettable African safari experiences since 2009.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook">📘</a>
+                        <a href="#" aria-label="Instagram">📷</a>
+                        <a href="#" aria-label="Twitter">🐦</a>
+                        <a href="#" aria-label="YouTube">📹</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="tours.html">Safari Tours</a></li>
+                        <li><a href="gallery.html">Photo Gallery</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Safari Packages</h3>
+                    <ul>
+                        <li><a href="tours.html">Classic Savanna Safari</a></li>
+                        <li><a href="tours.html">Giraffe Valley Explorer</a></li>
+                        <li><a href="tours.html">Wilderness Expedition</a></li>
+                        <li><a href="tours.html">Custom Packages</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li>📧 info@polarvistasafaris.com</li>
+                        <li>📱 +255 123 456 7890</li>
+                        <li>📍 Arusha, Tanzania, East Africa</li>
+                        <li>🕐 Mon-Sat: 8AM - 6PM EAT</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Polar Vista Safaris. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="gallery.js"></script>
+</body>
+</html>

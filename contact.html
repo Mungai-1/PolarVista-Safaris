@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Polar Vista Safaris</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .page-hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><rect fill="%23c49a6c" width="1200" height="400"/></svg>');
+            background-size: cover;
+            background-position: center;
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            margin-top: 70px;
+        }
+        
+        .page-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .contact-main {
+            padding: 5rem 2rem;
+            background: var(--light-bg);
+        }
+        
+        .contact-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+        
+        .contact-info-section {
+            background: white;
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px var(--shadow);
+        }
+        
+        .contact-info-section h2 {
+            text-align: left;
+            margin-bottom: 2rem;
+        }
+        
+        .contact-info-item {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            align-items: start;
+        }
+        
+        .contact-icon {
+            font-size: 2rem;
+            background: var(--light-bg);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .contact-info-text h3 {
+            color: var(--primary-brown);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .contact-info-text p {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+        
+        .contact-info-text a {
+            color: var(--primary-green);
+            text-decoration: none;
+        }
+        
+        .contact-info-text a:hover {
+            text-decoration: underline;
+        }
+        
+        .map-container {
+            margin-top: 2rem;
+            border-radius: 15px;
+            overflow: hidden;
+            height: 300px;
+            background: var(--light-bg);
+        }
+        
+        .map-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: var(--text-light);
+            font-size: 3rem;
+        }
+        
+        .booking-form-section {
+            background: white;
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px var(--shadow);
+        }
+        
+        .booking-form-section h2 {
+            text-align: left;
+            margin-bottom: 1.5rem;
+        }
+        
+        .booking-form-section > p {
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--primary-brown);
+            font-weight: 600;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-green);
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .form-submit {
+            width: 100%;
+            padding: 1.2rem;
+            background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .form-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(107, 142, 35, 0.3);
+        }
+        
+        .success-message {
+            display: none;
+            background: #d4edda;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .success-message.show {
+            display: block;
+        }
+        
+        @media (max-width: 968px) {
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .page-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .contact-info-section,
+            .booking-form-section {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="logo.png" alt="Polar Vista Safaris" class="logo-img">
+                <span>Polar Vista Safaris</span>
+            </div>
+            <button class="mobile-menu-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="tours.html">Tours</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="contact.html" class="active">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Page Hero -->
+    <section class="page-hero">
+        <div>
+            <h1>Get In Touch</h1>
+            <p>Let's Plan Your Dream Safari Adventure</p>
+        </div>
+    </section>
+
+    <!-- Contact Main Section -->
+    <section class="contact-main">
+        <div class="contact-container">
+            
+            <!-- Contact Information -->
+            <div>
+                <div class="contact-info-section">
+                    <h2>Contact Information</h2>
+                    
+                    <div class="contact-info-item">
+                        <div class="contact-icon">📍</div>
+                        <div class="contact-info-text">
+                            <h3>Visit Us</h3>
+                            <p>Polar Vista Safaris<br>
+                            123 Safari Drive<br>
+                            Arusha, Tanzania<br>
+                            East Africa</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-info-item">
+                        <div class="contact-icon">📞</div>
+                        <div class="contact-info-text">
+                            <h3>Call Us</h3>
+                            <p>Phone: <a href="tel:+255123456789">+255 123 456 7890</a><br>
+                            WhatsApp: <a href="https://wa.me/255123456789">+255 123 456 7890</a><br>
+                            Available: Mon-Sat, 8AM - 6PM EAT</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-info-item">
+                        <div class="contact-icon">📧</div>
+                        <div class="contact-info-text">
+                            <h3>Email Us</h3>
+                            <p>General Inquiries: <a href="mailto:info@polarvistasafaris.com">info@polarvistasafaris.com</a><br>
+                            Bookings: <a href="mailto:bookings@polarvistasafaris.com">bookings@polarvistasafaris.com</a><br>
+                            We respond within 24 hours</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-info-item">
+                        <div class="contact-icon">🕐</div>
+                        <div class="contact-info-text">
+                            <h3>Business Hours</h3>
+                            <p>Monday - Saturday: 8:00 AM - 6:00 PM EAT<br>
+                            Sunday: Closed<br>
+                            Emergency Contact: 24/7 Available</p>
+                        </div>
+                    </div>
+
+                    <div class="map-container">
+                        <div class="map-placeholder">
+                            🗺️
+                            <p style="font-size: 1rem; margin-top: 1rem;">Map Location</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Booking Form -->
+            <div>
+                <div class="booking-form-section">
+                    <h2>Book Your Safari</h2>
+                    <p>Fill out the form below and we'll get back to you within 24 hours with a customized safari proposal.</p>
+                    
+                    <div class="success-message" id="successMessage">
+                        Thank you for your inquiry! We'll get back to you within 24 hours.
+                    </div>
+                    
+                    <form id="bookingForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">First Name *</label>
+                                <input type="text" id="firstName" name="firstName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Last Name *</label>
+                                <input type="text" id="lastName" name="lastName" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email">Email Address *</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number *</label>
+                                <input type="tel" id="phone" name="phone" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="country">Country</label>
+                            <input type="text" id="country" name="country">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tour">Safari Package *</label>
+                            <select id="tour" name="tour" required>
+                                <option value="">Select a package...</option>
+                                <option value="classic">Classic Savanna Safari - 5 Days ($2,499)</option>
+                                <option value="giraffe">Giraffe Valley Explorer - 7 Days ($3,299)</option>
+                                <option value="wilderness">Wilderness Expedition - 10 Days ($4,999)</option>
+                                <option value="family">Family Safari Adventure - 6 Days ($2,799)</option>
+                                <option value="custom">Custom Package (Tell us your preferences)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="date">Preferred Travel Date</label>
+                                <input type="date" id="date" name="date">
+                            </div>
+                            <div class="form-group">
+                                <label for="guests">Number of Guests *</label>
+                                <input type="number" id="guests" name="guests" min="1" max="20" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="budget">Budget Range (USD)</label>
+                            <select id="budget" name="budget">
+                                <option value="">Select your budget...</option>
+                                <option value="2000-3000">$2,000 - $3,000 per person</option>
+                                <option value="3000-5000">$3,000 - $5,000 per person</option>
+                                <option value="5000-7000">$5,000 - $7,000 per person</option>
+                                <option value="7000+">$7,000+ per person</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Tell Us About Your Dream Safari *</label>
+                            <textarea id="message" name="message" placeholder="What are you most excited to see? Any special requirements or preferences?" required></textarea>
+                        </div>
+
+                        <button type="submit" class="form-submit">Send Inquiry</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="features">
+        <div class="container">
+            <h2>Frequently Asked Questions</h2>
+            <p class="section-subtitle">Quick answers to common safari planning questions</p>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">❓</div>
+                    <h3>Best Time to Visit?</h3>
+                    <p>June to October offers the best wildlife viewing, but each season has its unique advantages</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>What's Included?</h3>
+                    <p>Our packages include accommodation, meals, park fees, transport, and expert guides</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">✈️</div>
+                    <h3>How to Get There?</h3>
+                    <p>Fly to Kilimanjaro International Airport. We arrange all ground transportation</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏥</div>
+                    <h3>Health Requirements?</h3>
+                    <p>Yellow fever vaccination recommended. Malaria prophylaxis advised for some areas</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Have Questions? We're Here to Help!</h2>
+            <p>Our safari experts are available to answer all your questions and help plan your perfect adventure</p>
+            <div class="cta-buttons">
+                <a href="tours.html" class="cta-button">Browse Safari Packages</a>
+                <a href="mailto:info@polarvistasafaris.com" class="btn-secondary-white">Email Us Directly</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Polar Vista Safaris</h3>
+                    <p>Explore the wild, discover the wonders</p>
+                    <p>Creating unforgettable African safari experiences since 2009.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook">📘</a>
+                        <a href="#" aria-label="Instagram">📷</a>
+                        <a href="#" aria-label="Twitter">🐦</a>
+                        <a href="#" aria-label="YouTube">📹</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="tours.html">Safari Tours</a></li>
+                        <li><a href="gallery.html">Photo Gallery</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Safari Packages</h3>
+                    <ul>
+                        <li><a href="tours.html">Classic Savanna Safari</a></li>
+                        <li><a href="tours.html">Giraffe Valley Explorer</a></li>
+                        <li><a href="tours.html">Wilderness Expedition</a></li>
+                        <li><a href="tours.html">Custom Packages</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li>📧 info@polarvistasafaris.com</li>
+                        <li>📱 +255 123 456 7890</li>
+                        <li>📍 Arusha, Tanzania, East Africa</li>
+                        <li>🕐 Mon-Sat: 8AM - 6PM EAT</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Polar Vista Safaris. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
