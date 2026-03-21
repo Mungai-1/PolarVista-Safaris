@@ -1,0 +1,1672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PolarVista Safaris</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#C9A96E;--gold-light:#E8D5B0;--gold-dark:#8B6F3C;
+  --dark:#0D0D0B;--dark2:#1A1A16;--dark3:#242420;
+  --cream:#F5F0E8;--cream2:#EDE6D6;--cream3:#D4C9B0;
+  --text:#2C2820;--text-m:#5C5448;--text-l:#8C8478;
+  --white:#FAFAF7;
+  --ff:'Cormorant Garamond',serif;
+  --fb:'Jost',sans-serif;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:var(--fb);background:var(--white);color:var(--text);overflow-x:hidden}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--cream)}
+::-webkit-scrollbar-thumb{background:var(--gold-dark);border-radius:3px}
+img{max-width:100%;display:block}
+a{text-decoration:none}
+
+/* ── PAGE SYSTEM ── */
+.page{display:none;min-height:100vh}
+.page.active{display:block}
+
+/* ── NAV ── */
+#nav{
+  position:fixed;top:0;left:0;right:0;z-index:900;
+  padding:0 56px;height:72px;
+  display:flex;align-items:center;justify-content:space-between;
+  transition:background .4s,box-shadow .4s;
+}
+#nav.scrolled,#nav.solid{background:rgba(13,13,11,.94);backdrop-filter:blur(14px);box-shadow:0 1px 0 rgba(201,169,110,.15)}
+.nav-logo{font-family:var(--ff);font-size:22px;font-weight:400;color:var(--gold);letter-spacing:.08em;cursor:pointer}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:400;color:rgba(245,240,232,.72);transition:color .2s;cursor:pointer}
+.nav-links a:hover,.nav-links a.active{color:var(--gold)}
+.nav-cta{font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:500;padding:10px 24px;border:1px solid var(--gold);color:var(--gold);background:transparent;cursor:pointer;transition:all .2s}
+.nav-cta:hover{background:var(--gold);color:var(--dark)}
+#hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+#hamburger span{display:block;width:24px;height:1px;background:var(--gold);transition:all .3s}
+#mobile-menu{display:none;position:fixed;inset:0;z-index:899;background:var(--dark);flex-direction:column;align-items:center;justify-content:center;gap:28px}
+#mobile-menu.open{display:flex}
+#mobile-menu a{font-family:var(--ff);font-size:30px;color:var(--cream);cursor:pointer}
+#mobile-menu a:hover{color:var(--gold)}
+
+/* ── SECTION UTILS ── */
+.sec{padding:100px 56px}
+.sec-inner{max-width:1200px;margin:0 auto}
+.eyebrow{font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);font-weight:300;margin-bottom:14px}
+.sec-title{font-family:var(--ff);font-size:clamp(36px,5vw,62px);font-weight:300;color:var(--text);line-height:1.08;margin-bottom:18px}
+.sec-title em{font-style:italic;color:var(--gold-dark)}
+.sec-sub{font-size:15px;font-weight:300;color:var(--text-m);line-height:1.9;max-width:560px}
+.divider{width:48px;height:1px;background:var(--gold);margin:24px 0}
+.btn-gold{display:inline-block;padding:14px 40px;background:var(--gold);color:var(--dark);font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:500;border:none;cursor:pointer;transition:all .22s}
+.btn-gold:hover{background:var(--gold-light)}
+.btn-outline-light{display:inline-block;padding:14px 40px;background:transparent;color:var(--cream);font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:400;border:1px solid rgba(245,240,232,.38);cursor:pointer;transition:all .22s}
+.btn-outline-light:hover{border-color:var(--gold);color:var(--gold)}
+.btn-outline-dark{display:inline-block;padding:14px 40px;background:transparent;color:var(--text);font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:400;border:1px solid rgba(44,40,32,.3);cursor:pointer;transition:all .22s}
+.btn-outline-dark:hover{border-color:var(--gold);color:var(--gold-dark)}
+
+/* ════════════════════════════════════
+   HOME PAGE
+════════════════════════════════════ */
+/* Hero */
+#hero{position:relative;height:100vh;min-height:640px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(13,13,11,.28) 0%,rgba(13,13,11,.52) 60%,rgba(13,13,11,.86) 100%),url('https://images.unsplash.com/photo-1516426122078-c23e76319801?w=1800&q=80') center/cover no-repeat}
+.hero-content{position:relative;z-index:1;text-align:center;padding:0 24px;max-width:920px}
+.hero-eyebrow{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:22px;font-weight:300}
+.hero-title{font-family:var(--ff);font-size:clamp(52px,9vw,112px);font-weight:300;color:var(--cream);line-height:1.01;letter-spacing:-.01em;margin-bottom:26px}
+.hero-title em{font-style:italic;color:var(--gold-light)}
+.hero-sub{font-size:15px;font-weight:300;color:rgba(245,240,232,.68);letter-spacing:.04em;line-height:1.85;margin-bottom:48px;max-width:540px;margin-left:auto;margin-right:auto}
+.hero-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.hero-scroll{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:rgba(245,240,232,.36);font-size:9px;letter-spacing:.22em;text-transform:uppercase}
+.hero-scroll-line{width:1px;height:36px;background:linear-gradient(to bottom,rgba(201,169,110,.55),transparent)}
+
+/* Home Intro Strip */
+#home-intro{background:var(--cream);padding:80px 56px}
+.home-intro-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.home-intro-text{}
+.home-intro-img{position:relative}
+.home-intro-img img{width:100%;aspect-ratio:4/5;object-fit:cover}
+.home-intro-accent{position:absolute;bottom:-28px;right:-28px;width:45%;aspect-ratio:1;object-fit:cover;border:6px solid var(--cream)}
+
+/* Home Experiences Preview */
+#home-exp{background:var(--white);padding:100px 56px}
+.exp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:60px}
+.exp-card{position:relative;overflow:hidden;aspect-ratio:3/4;cursor:pointer}
+.exp-card img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.25,.46,.45,.94)}
+.exp-card:hover img{transform:scale(1.08)}
+.exp-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(13,13,11,.88) 0%,rgba(13,13,11,.08) 55%,transparent 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:36px 28px}
+.exp-tag{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.exp-name{font-family:var(--ff);font-size:26px;font-weight:300;color:var(--cream);line-height:1.1;margin-bottom:8px}
+.exp-desc{font-size:12px;color:rgba(245,240,232,.62);font-weight:300;line-height:1.6}
+.exp-arrow{display:inline-block;margin-top:14px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);opacity:0;transform:translateY(6px);transition:all .3s}
+.exp-card:hover .exp-arrow{opacity:1;transform:translateY(0)}
+
+/* Stats Bar */
+.stats-bar{background:var(--dark);padding:56px;display:flex;justify-content:center;gap:0}
+.stat-item{text-align:center;padding:0 56px;border-right:1px solid rgba(201,169,110,.15)}
+.stat-item:last-child{border-right:none}
+.stat-num{font-family:var(--ff);font-size:48px;font-weight:300;color:var(--gold);line-height:1}
+.stat-label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(245,240,232,.38);margin-top:6px;font-weight:300}
+
+/* Home Testimonial Preview */
+#home-reviews{background:var(--cream2);padding:80px 56px}
+.reviews-preview{max-width:1200px;margin:0 auto}
+.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px}
+.review-card{background:var(--white);padding:32px;border-left:3px solid var(--gold)}
+.review-stars{display:flex;gap:3px;margin-bottom:16px}
+.star{color:var(--gold);font-size:14px}
+.star.empty{color:var(--cream3)}
+.review-text{font-family:var(--ff);font-size:16px;font-style:italic;color:var(--text);line-height:1.65;margin-bottom:16px}
+.review-author{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-l)}
+.review-tour{font-size:11px;color:var(--gold-dark);margin-top:3px}
+
+/* CTA Band */
+.cta-band{background:var(--dark2);padding:80px 56px;text-align:center}
+.cta-band h2{font-family:var(--ff);font-size:clamp(32px,4vw,52px);font-weight:300;color:var(--cream);margin-bottom:16px}
+.cta-band h2 em{font-style:italic;color:var(--gold-light)}
+.cta-band p{font-size:14px;font-weight:300;color:rgba(245,240,232,.5);margin-bottom:36px}
+.cta-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+
+/* ════════════════════════════════════
+   EXPERIENCES PAGE
+════════════════════════════════════ */
+.page-hero{position:relative;height:60vh;min-height:420px;display:flex;align-items:flex-end;overflow:hidden;padding:60px 56px}
+.page-hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat}
+.page-hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(13,13,11,.82) 0%,rgba(13,13,11,.25) 60%,rgba(13,13,11,.15) 100%)}
+.page-hero-content{position:relative;z-index:1;max-width:1200px;width:100%}
+.page-hero-content .eyebrow{margin-bottom:12px}
+.page-hero-content h1{font-family:var(--ff);font-size:clamp(40px,6vw,72px);font-weight:300;color:var(--cream);line-height:1.05}
+.page-hero-content h1 em{font-style:italic;color:var(--gold-light)}
+
+.exp-full-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:0}
+.exp-full-card{position:relative;overflow:hidden;aspect-ratio:16/10;cursor:pointer}
+.exp-full-card:first-child{grid-column:span 2;aspect-ratio:21/9}
+.exp-full-card img{width:100%;height:100%;object-fit:cover;transition:transform .7s ease}
+.exp-full-card:hover img{transform:scale(1.06)}
+.exp-full-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(13,13,11,.9) 0%,rgba(13,13,11,.15) 60%,transparent 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:40px 40px}
+.exp-full-card:not(:first-child) .exp-full-overlay{padding:28px 28px}
+.exp-full-tag{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.exp-full-name{font-family:var(--ff);font-size:32px;font-weight:300;color:var(--cream);margin-bottom:8px}
+.exp-full-card:not(:first-child) .exp-full-name{font-size:24px}
+.exp-full-desc{font-size:13px;color:rgba(245,240,232,.65);font-weight:300;line-height:1.65;max-width:560px}
+.exp-full-cta{margin-top:20px;display:inline-block;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);border-bottom:1px solid rgba(201,169,110,.4);padding-bottom:2px;transition:all .2s}
+.exp-full-cta:hover{border-color:var(--gold)}
+
+/* Reviews Section on Experiences Page */
+#exp-reviews{background:var(--cream);padding:100px 56px}
+.reviews-header{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:24px;margin-bottom:48px}
+.rating-summary{text-align:right}
+.rating-big{font-family:var(--ff);font-size:56px;font-weight:300;color:var(--text);line-height:1}
+.rating-label{font-size:11px;color:var(--text-l);letter-spacing:.12em;text-transform:uppercase;margin-top:6px}
+.reviews-list{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-bottom:40px}
+.review-card-full{background:var(--white);padding:32px;border:1px solid var(--cream2)}
+.review-card-full .review-meta{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.reviewer-name{font-size:13px;font-weight:500;color:var(--text);letter-spacing:.05em}
+.reviewer-tour{font-size:11px;color:var(--gold-dark);margin-top:3px;letter-spacing:.08em}
+.review-date{font-size:11px;color:var(--text-l)}
+.review-body{font-family:var(--ff);font-size:17px;font-style:italic;color:var(--text-m);line-height:1.65}
+
+/* Write Review Form */
+.write-review{background:var(--dark);padding:48px;margin-top:48px}
+.write-review h3{font-family:var(--ff);font-size:28px;font-weight:300;color:var(--cream);margin-bottom:6px}
+.write-review p{font-size:13px;color:rgba(245,240,232,.45);margin-bottom:32px}
+.star-picker{display:flex;gap:8px;margin-bottom:24px}
+.star-pick{font-size:28px;cursor:pointer;color:var(--cream3);transition:color .15s;line-height:1;user-select:none}
+.star-pick.active,.star-pick.hover{color:var(--gold)}
+.rev-form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.rev-group{margin-bottom:16px}
+.rev-group label{display:block;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.rev-group input,.rev-group textarea,.rev-group select{width:100%;background:rgba(245,240,232,.05);border:1px solid rgba(201,169,110,.2);color:rgba(245,240,232,.85);font-family:var(--fb);font-size:14px;font-weight:300;padding:13px 15px;outline:none;transition:border-color .2s;-webkit-appearance:none;appearance:none}
+.rev-group input::placeholder,.rev-group textarea::placeholder{color:rgba(245,240,232,.22)}
+.rev-group input:focus,.rev-group textarea:focus,.rev-group select:focus{border-color:var(--gold)}
+.rev-group select option{background:var(--dark3);color:var(--cream)}
+.rev-group textarea{resize:vertical;min-height:100px}
+
+/* ════════════════════════════════════
+   ABOUT PAGE
+════════════════════════════════════ */
+#about-story{background:var(--white);padding:100px 56px}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.about-img-wrap{position:relative}
+.about-img-wrap img:first-child{width:100%;aspect-ratio:4/5;object-fit:cover}
+.about-img-accent{position:absolute;bottom:-28px;right:-28px;width:45%;aspect-ratio:1;object-fit:cover;border:6px solid var(--white)}
+.about-text .sec-title{color:var(--text)}
+.about-mv{background:var(--dark);padding:100px 56px}
+.mv-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;max-width:1200px;margin:64px auto 0}
+.mv-box{padding:48px;background:var(--dark2)}
+.mv-box:first-child{background:var(--dark3)}
+.mv-label{font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+.mv-box p{font-family:var(--ff);font-size:20px;font-weight:300;color:rgba(245,240,232,.72);line-height:1.7;font-style:italic}
+.team-sec{background:var(--cream);padding:100px 56px}
+.team-grid-pub{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:56px}
+.team-card{background:var(--white);padding:28px 24px}
+.team-avatar{width:72px;height:72px;border-radius:50%;background:var(--dark3);display:flex;align-items:center;justify-content:center;font-family:var(--ff);font-size:24px;color:var(--gold);margin-bottom:16px}
+.team-name{font-family:var(--ff);font-size:20px;font-weight:400;color:var(--text);margin-bottom:4px}
+.team-role{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.team-bio{font-size:13px;color:var(--text-m);font-weight:300;line-height:1.7}
+
+/* ════════════════════════════════════
+   GALLERY PAGE
+════════════════════════════════════ */
+#gallery-events{background:var(--white);padding:100px 56px}
+.events-header{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:24px;margin-bottom:60px}
+.event-block{margin-bottom:72px}
+.event-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;padding-bottom:16px;border-bottom:1px solid var(--cream2);margin-bottom:24px}
+.event-title-wrap{}
+.event-title{font-family:var(--ff);font-size:28px;font-weight:400;color:var(--text);margin-bottom:4px}
+.event-date-label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+.event-links{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.event-drive-btn{display:inline-flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-dark);border:1px solid var(--gold);padding:8px 18px;transition:all .2s;cursor:pointer}
+.event-drive-btn:hover{background:var(--gold);color:var(--dark)}
+.event-photos-count{font-size:11px;color:var(--text-l)}
+.event-gallery-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:3px}
+.event-gallery-grid .eg-item{position:relative;overflow:hidden;aspect-ratio:1;cursor:pointer}
+.event-gallery-grid .eg-item:first-child{grid-column:span 2;grid-row:span 2;aspect-ratio:auto}
+.event-gallery-grid .eg-item img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.event-gallery-grid .eg-item:hover img{transform:scale(1.07)}
+.no-events{text-align:center;padding:80px 0;color:var(--text-l);font-family:var(--ff);font-size:22px;font-weight:300;font-style:italic}
+
+/* ════════════════════════════════════
+   BLOG PAGE
+════════════════════════════════════ */
+#blog-list{background:var(--white);padding:100px 56px}
+.blog-grid-full{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;margin-top:60px}
+.blog-card-pub{cursor:pointer}
+.blog-thumb-pub{overflow:hidden;aspect-ratio:16/10;margin-bottom:22px}
+.blog-thumb-pub img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+.blog-card-pub:hover .blog-thumb-pub img{transform:scale(1.05)}
+.blog-cat-tag{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.blog-title-pub{font-family:var(--ff);font-size:22px;font-weight:400;color:var(--text);line-height:1.3;margin-bottom:10px}
+.blog-excerpt-pub{font-size:13px;color:var(--text-m);line-height:1.8;font-weight:300}
+.blog-meta-pub{margin-top:14px;font-size:11px;color:var(--text-l);display:flex;gap:12px;align-items:center}
+.dot{width:3px;height:3px;background:var(--gold);border-radius:50%;flex-shrink:0}
+
+/* ════════════════════════════════════
+   CONTACT PAGE
+════════════════════════════════════ */
+#contact-sec{background:var(--dark2);padding:100px 56px}
+.contact-grid{display:grid;grid-template-columns:1fr 1.35fr;gap:80px;align-items:start;max-width:1200px;margin:0 auto}
+.contact-info-col .sec-title{color:var(--cream)}
+.contact-info-col .sec-sub{color:rgba(245,240,232,.52)}
+.c-detail{display:flex;align-items:flex-start;gap:16px;margin-bottom:22px}
+.c-icon{width:36px;height:36px;border:1px solid rgba(201,169,110,.28);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--gold);font-size:15px}
+.c-detail-text p:first-child{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.c-detail-text p:last-child{font-size:14px;color:rgba(245,240,232,.68);font-weight:300;line-height:1.6}
+.contact-form-col{background:var(--dark3);padding:48px}
+.cf-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.cf-group{margin-bottom:18px}
+.cf-group label{display:block;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.cf-group input,.cf-group select,.cf-group textarea{width:100%;background:rgba(245,240,232,.05);border:1px solid rgba(201,169,110,.18);color:rgba(245,240,232,.85);font-family:var(--fb);font-size:14px;font-weight:300;padding:13px 15px;outline:none;transition:border-color .2s;-webkit-appearance:none;appearance:none}
+.cf-group input::placeholder,.cf-group textarea::placeholder{color:rgba(245,240,232,.22)}
+.cf-group input:focus,.cf-group select:focus,.cf-group textarea:focus{border-color:var(--gold)}
+.cf-group select option{background:var(--dark3);color:var(--cream)}
+.cf-group textarea{resize:vertical;min-height:120px}
+.btn-submit-full{width:100%;padding:17px;background:var(--gold);color:var(--dark);border:none;font-family:var(--fb);font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:500;cursor:pointer;transition:all .22s;margin-top:6px}
+.btn-submit-full:hover{background:var(--gold-light)}
+.form-note-c{font-size:11px;color:rgba(245,240,232,.28);margin-top:12px;line-height:1.6;text-align:center}
+
+/* ════════════════════════════════════
+   FOOTER
+════════════════════════════════════ */
+footer{background:var(--dark);border-top:1px solid rgba(201,169,110,.08);padding:60px 56px 32px}
+.footer-inner{max-width:1200px;margin:0 auto}
+.footer-top{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
+.footer-brand-name{font-family:var(--ff);font-size:22px;color:var(--gold);margin-bottom:12px;letter-spacing:.06em}
+.footer-brand-desc{font-size:13px;font-weight:300;color:rgba(245,240,232,.38);line-height:1.85}
+.footer-col-title{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,240,232,.35);margin-bottom:18px}
+.footer-col a{display:block;font-size:13px;font-weight:300;color:rgba(245,240,232,.5);margin-bottom:10px;cursor:pointer;transition:color .2s}
+.footer-col a:hover{color:var(--gold)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(245,240,232,.05);padding-top:22px;font-size:11px;color:rgba(245,240,232,.22);flex-wrap:wrap;gap:10px}
+.footer-bottom a{color:rgba(245,240,232,.35);cursor:pointer}
+.footer-bottom a:hover{color:var(--gold)}
+
+/* WhatsApp */
+#wa-btn{position:fixed;bottom:30px;right:30px;z-index:800;width:54px;height:54px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(0,0,0,.28);cursor:pointer;text-decoration:none;transition:transform .2s,box-shadow .2s}
+#wa-btn:hover{transform:scale(1.08);box-shadow:0 6px 26px rgba(37,211,102,.38)}
+#wa-btn svg{width:26px;height:26px;fill:#fff}
+
+/* Toast */
+#toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--dark);color:var(--cream);font-size:13px;padding:14px 28px;border-left:3px solid var(--gold);transition:transform .3s ease;z-index:2000;pointer-events:none;white-space:nowrap}
+#toast.show{transform:translateX(-50%) translateY(0)}
+
+/* Lightbox */
+.lb-bg{position:fixed;inset:0;z-index:1100;background:rgba(0,0,0,.94);display:none;align-items:center;justify-content:center}
+.lb-bg.open{display:flex}
+.lb-bg img{max-width:92vw;max-height:90vh;object-fit:contain}
+.lb-close{position:absolute;top:20px;right:24px;background:none;border:none;color:#fff;font-size:28px;cursor:pointer}
+
+/* Blog Modal */
+.modal-bg{position:fixed;inset:0;z-index:1050;background:rgba(13,13,11,.9);display:none;align-items:center;justify-content:center;padding:24px}
+.modal-bg.open{display:flex}
+.modal-box{background:var(--white);max-width:700px;width:100%;max-height:90vh;overflow-y:auto;position:relative}
+.modal-close{position:absolute;top:14px;right:16px;width:36px;height:36px;background:none;border:none;font-size:22px;cursor:pointer;color:var(--text-m);z-index:10;display:flex;align-items:center;justify-content:center}
+.modal-img-full{width:100%;aspect-ratio:16/9;object-fit:cover}
+.modal-body{padding:40px}
+.modal-body h2{font-family:var(--ff);font-size:30px;font-weight:400;color:var(--text);line-height:1.2;margin:12px 0 20px}
+.modal-body p{font-size:14px;color:var(--text-m);line-height:1.9;font-weight:300;margin-bottom:14px}
+.modal-body .blog-meta-pub{margin-top:24px;padding-top:20px;border-top:1px solid var(--cream2)}
+
+/* ════════════════════════════════════
+   ADMIN LOGIN
+════════════════════════════════════ */
+#admin-login{position:fixed;inset:0;z-index:1200;background:var(--dark);display:none;flex-direction:column;align-items:center;justify-content:center}
+#admin-login.open{display:flex}
+.login-box{max-width:400px;width:100%;padding:0 24px}
+.login-box h2{font-family:var(--ff);font-size:36px;font-weight:300;color:var(--cream);text-align:center;margin-bottom:6px}
+.login-box p{font-size:13px;color:rgba(245,240,232,.38);text-align:center;margin-bottom:36px}
+.login-box .cf-group{margin-bottom:14px}
+.login-box .cf-group label{color:var(--gold)}
+.login-box .cf-group input{width:100%;background:rgba(245,240,232,.05);border:1px solid rgba(201,169,110,.2);color:rgba(245,240,232,.85);font-family:var(--fb);font-size:14px;font-weight:300;padding:13px 15px;outline:none;transition:border-color .2s}
+.login-box .cf-group input:focus{border-color:var(--gold)}
+.login-error{color:#E24B4A;font-size:12px;text-align:center;margin-top:10px;display:none}
+
+/* ════════════════════════════════════
+   ADMIN DASHBOARD
+════════════════════════════════════ */
+#admin-dash{position:fixed;inset:0;z-index:1200;background:var(--cream);display:none;overflow:hidden}
+#admin-dash.open{display:flex}
+.adm-sidebar{width:240px;flex-shrink:0;background:var(--dark);display:flex;flex-direction:column;height:100vh;overflow-y:auto}
+.adm-logo{padding:26px 24px;border-bottom:1px solid rgba(201,169,110,.12);font-family:var(--ff);font-size:18px;color:var(--gold);letter-spacing:.05em}
+.adm-logo span{display:block;font-size:9px;letter-spacing:.18em;color:rgba(245,240,232,.28);font-family:var(--fb);margin-top:2px;text-transform:uppercase}
+.adm-nav{flex:1;padding:12px 0}
+.adm-nav-btn{display:flex;align-items:center;gap:12px;padding:12px 24px;font-size:13px;font-weight:300;color:rgba(245,240,232,.45);cursor:pointer;border:none;background:none;width:100%;text-align:left;border-left:2px solid transparent;font-family:var(--fb);transition:all .2s}
+.adm-nav-btn:hover,.adm-nav-btn.active{color:var(--gold);background:rgba(201,169,110,.06);border-left-color:var(--gold)}
+.adm-nav-btn svg{width:15px;height:15px;opacity:.55;flex-shrink:0}
+.adm-nav-btn.active svg,.adm-nav-btn:hover svg{opacity:1}
+.adm-logout-btn{padding:18px 24px;border-top:1px solid rgba(201,169,110,.08);font-size:12px;color:rgba(245,240,232,.28);cursor:pointer;transition:color .2s;text-align:left;background:none;border-bottom:none;border-left:none;border-right:none;font-family:var(--fb);letter-spacing:.08em;width:100%}
+.adm-logout-btn:hover{color:var(--gold)}
+.adm-main{flex:1;overflow-y:auto;padding:40px 48px;background:var(--cream)}
+.adm-panel{display:none}
+.adm-panel.active{display:block}
+.adm-header{margin-bottom:32px}
+.adm-header h1{font-family:var(--ff);font-size:30px;font-weight:400;color:var(--text)}
+.adm-header p{font-size:13px;color:var(--text-l);margin-top:3px}
+.adm-card{background:#fff;border:1px solid rgba(44,40,32,.07);padding:28px 32px;margin-bottom:22px}
+.adm-card h3{font-family:var(--ff);font-size:20px;font-weight:400;color:var(--text);margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--cream2)}
+.adm-form-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.adm-group{margin-bottom:15px}
+.adm-group label{display:block;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-m);margin-bottom:6px}
+.adm-group input,.adm-group textarea,.adm-group select{width:100%;border:1px solid var(--cream3);background:var(--white);font-family:var(--fb);font-size:14px;font-weight:300;color:var(--text);padding:11px 13px;outline:none;transition:border-color .2s;-webkit-appearance:none}
+.adm-group input:focus,.adm-group textarea:focus,.adm-group select:focus{border-color:var(--gold)}
+.adm-group textarea{resize:vertical;min-height:80px}
+.adm-group select option{background:#fff}
+.adm-btn{padding:11px 26px;background:var(--gold);color:var(--dark);border:none;font-family:var(--fb);font-size:10px;letter-spacing:.18em;text-transform:uppercase;font-weight:500;cursor:pointer;transition:all .2s}
+.adm-btn:hover{background:var(--gold-dark);color:#fff}
+.adm-btn-ghost{padding:11px 26px;background:transparent;color:var(--text-m);border:1px solid var(--cream3);font-family:var(--fb);font-size:10px;letter-spacing:.18em;text-transform:uppercase;font-weight:400;cursor:pointer;transition:all .2s}
+.adm-btn-ghost:hover{border-color:var(--gold);color:var(--gold-dark)}
+.adm-btn-danger{padding:11px 22px;background:transparent;color:#A32D2D;border:1px solid #F7C1C1;font-family:var(--fb);font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:400;cursor:pointer;transition:all .2s}
+.adm-btn-danger:hover{background:#FCEBEB}
+.adm-actions{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap;align-items:center}
+.pub-badge{display:inline-block;font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:3px 10px;margin-left:8px}
+.badge-pub{background:#EAF3DE;color:#3B6D11}
+.badge-draft{background:#FAEEDA;color:#854F0B}
+
+/* Admin Gallery Events */
+.adm-event-card{background:#fff;border:1px solid rgba(44,40,32,.07);margin-bottom:20px;overflow:hidden}
+.adm-event-card-header{padding:20px 28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;border-bottom:1px solid var(--cream2);cursor:pointer;background:#fff;transition:background .2s}
+.adm-event-card-header:hover{background:var(--cream)}
+.adm-event-card-header h4{font-family:var(--ff);font-size:18px;font-weight:400;color:var(--text)}
+.adm-event-card-header span{font-size:11px;color:var(--text-l)}
+.adm-event-card-body{padding:24px 28px;display:none}
+.adm-event-card-body.open{display:block}
+.adm-event-mini-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin:14px 0}
+.adm-eg-item{position:relative;aspect-ratio:1;overflow:hidden}
+.adm-eg-item img{width:100%;height:100%;object-fit:cover}
+.adm-eg-del{position:absolute;top:4px;right:4px;width:22px;height:22px;background:rgba(163,45,45,.82);border:none;color:#fff;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s}
+.adm-eg-item:hover .adm-eg-del{opacity:1}
+.adm-upload-area{border:2px dashed var(--cream3);padding:26px;text-align:center;cursor:pointer;transition:border-color .2s;margin-bottom:12px}
+.adm-upload-area:hover{border-color:var(--gold)}
+.adm-upload-area p{font-size:12px;color:var(--text-l);margin-top:6px}
+.adm-upload-area input{display:none}
+.adm-event-list{margin-bottom:20px}
+
+/* Reviews Admin */
+.rev-adm-item{background:#fff;border:1px solid rgba(44,40,32,.07);padding:18px 22px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.rev-adm-info p:first-child{font-size:13px;font-weight:500;color:var(--text)}
+.rev-adm-info p:nth-child(2){font-size:12px;color:var(--text-l)}
+.rev-adm-info p:nth-child(3){font-size:13px;color:var(--text-m);margin-top:4px;font-style:italic}
+.rev-adm-actions{display:flex;gap:8px;flex-shrink:0}
+.adm-approve-btn{padding:7px 16px;font-size:10px;letter-spacing:.14em;text-transform:uppercase;border:1px solid #639922;color:#3B6D11;background:#EAF3DE;cursor:pointer;font-family:var(--fb);transition:all .2s}
+.adm-approve-btn:hover{background:#C0DD97}
+.adm-reject-btn{padding:7px 16px;font-size:10px;letter-spacing:.14em;text-transform:uppercase;border:1px solid #F7C1C1;color:#A32D2D;background:#FCEBEB;cursor:pointer;font-family:var(--fb);transition:all .2s}
+.adm-reject-btn:hover{background:#F7C1C1}
+
+/* Blog Admin */
+.blog-adm-card{background:#fff;border:1px solid rgba(44,40,32,.07);padding:28px 32px;margin-bottom:18px}
+.blog-adm-card h4{font-family:var(--ff);font-size:18px;font-weight:400;color:var(--text);margin-bottom:16px;display:flex;align-items:center;flex-wrap:wrap;gap:6px}
+
+/* Responsive */
+@media(max-width:1024px){
+  #nav{padding:0 28px}
+  .sec{padding:72px 28px}
+  .page-hero{padding:48px 28px}
+  .home-intro-inner,.about-grid,.contact-grid{grid-template-columns:1fr;gap:48px}
+  .home-intro-accent,.about-img-accent{display:none}
+  .exp-grid,.exp-full-grid,.mv-grid,.reviews-list{grid-template-columns:1fr}
+  .exp-full-card:first-child{grid-column:span 1;aspect-ratio:16/10}
+  .team-grid-pub{grid-template-columns:1fr 1fr}
+  .blog-grid-full{grid-template-columns:1fr 1fr}
+  .footer-top{grid-template-columns:1fr 1fr}
+  .adm-main{padding:24px 28px}
+  .reviews-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:700px){
+  .nav-links,.nav-cta{display:none}
+  #hamburger{display:flex}
+  .stats-bar{flex-direction:column;gap:32px;padding:48px 28px;align-items:center}
+  .stat-item{border-right:none;border-bottom:1px solid rgba(201,169,110,.12);padding:0 0 28px;width:100%;text-align:center}
+  .stat-item:last-child{border-bottom:none;padding-bottom:0}
+  .team-grid-pub{grid-template-columns:1fr}
+  .blog-grid-full{grid-template-columns:1fr}
+  .cf-row,.rev-form-row,.adm-form-row{grid-template-columns:1fr}
+  .event-gallery-grid{grid-template-columns:repeat(3,1fr)}
+  .adm-event-mini-grid{grid-template-columns:repeat(4,1fr)}
+  .reviews-grid,.reviews-list{grid-template-columns:1fr}
+  .adm-sidebar{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav id="nav">
+  <div class="nav-logo" onclick="goPage('home')">PolarVista Safaris</div>
+  <ul class="nav-links">
+    <li><a onclick="goPage('home')" id="nl-home">Home</a></li>
+    <li><a onclick="goPage('experiences')" id="nl-experiences">Experiences</a></li>
+    <li><a onclick="goPage('about')" id="nl-about">About</a></li>
+    <li><a onclick="goPage('gallery')" id="nl-gallery">Gallery</a></li>
+    <li><a onclick="goPage('blog')" id="nl-blog">Journal</a></li>
+    <li><a onclick="goPage('contact')" id="nl-contact">Contact</a></li>
+  </ul>
+  <button class="nav-cta" onclick="goPage('contact')">Book Inquiry</button>
+  <button id="hamburger" onclick="toggleMobile()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div id="mobile-menu">
+  <a onclick="closeMobile('home')">Home</a>
+  <a onclick="closeMobile('experiences')">Experiences</a>
+  <a onclick="closeMobile('about')">About</a>
+  <a onclick="closeMobile('gallery')">Gallery</a>
+  <a onclick="closeMobile('blog')">Journal</a>
+  <a onclick="closeMobile('contact')">Contact</a>
+</div>
+
+<!-- ════════════════════════════════════
+     HOME PAGE
+════════════════════════════════════ -->
+<div class="page active" id="page-home">
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Est. 2010 · Kenya & Beyond</p>
+      <h1 class="hero-title">Where Wilderness<br>Becomes <em>Legend</em></h1>
+      <p class="hero-sub">Curated safari journeys, cultural immersions, and highland adventures across Africa's most extraordinary landscapes.</p>
+      <div class="hero-btns">
+        <button class="btn-gold" onclick="goPage('contact')">Plan Your Journey</button>
+        <button class="btn-outline-light" onclick="goPage('experiences')">Explore Experiences</button>
+      </div>
+    </div>
+    <div class="hero-scroll"><div class="hero-scroll-line"></div><span>Scroll</span></div>
+  </section>
+
+  <section id="home-intro">
+    <div class="home-intro-inner">
+      <div class="home-intro-img">
+        <img src="https://images.unsplash.com/photo-1601918774946-25832a4be0d6?w=800&q=80" alt="About PolarVista">
+        <img class="home-intro-accent" src="https://images.unsplash.com/photo-1550358864-518f202c02ba?w=400&q=80" alt="">
+      </div>
+      <div>
+        <p class="eyebrow">Our Story</p>
+        <h2 class="sec-title">Born from <em>Passion</em></h2>
+        <div class="divider"></div>
+        <p class="sec-sub" id="home-story-el">PolarVista Safaris was founded by a small team of guides who fell in love with Africa's landscapes long before they became professionals. Our philosophy is simple: slow down, look closer, and let the land speak.</p>
+        <div style="margin-top:32px"><button class="btn-outline-dark" onclick="goPage('about')">Discover Our Story</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="home-exp">
+    <div class="sec-inner">
+      <p class="eyebrow">What We Offer</p>
+      <h2 class="sec-title">Curated <em>Experiences</em></h2>
+      <div class="divider"></div>
+      <div class="exp-grid">
+        <div class="exp-card" onclick="goPage('experiences')">
+          <img src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=800&q=80" alt="Safari">
+          <div class="exp-overlay">
+            <p class="exp-tag">Wildlife</p>
+            <h3 class="exp-name">Safari & Wildlife</h3>
+            <p class="exp-desc">From the Maasai Mara's great migration to Amboseli's elephant herds beneath Kilimanjaro.</p>
+            <span class="exp-arrow">Explore →</span>
+          </div>
+        </div>
+        <div class="exp-card" onclick="goPage('experiences')">
+          <img src="https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=800&q=80" alt="Cultural">
+          <div class="exp-overlay">
+            <p class="exp-tag">Heritage</p>
+            <h3 class="exp-name">Cultural Journeys</h3>
+            <p class="exp-desc">Step into living traditions with Maasai warriors, Swahili coast traders, and Lamu island life.</p>
+            <span class="exp-arrow">Explore →</span>
+          </div>
+        </div>
+        <div class="exp-card" onclick="goPage('experiences')">
+          <img src="https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?w=800&q=80" alt="Adventure">
+          <div class="exp-overlay">
+            <p class="exp-tag">Adventure</p>
+            <h3 class="exp-name">Highland Treks</h3>
+            <p class="exp-desc">Conquer Mount Kenya, traverse the Aberdares, or hike the Rift Valley's escarpment ridges.</p>
+            <span class="exp-arrow">Explore →</span>
+          </div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:48px"><button class="btn-outline-dark" onclick="goPage('experiences')">View All Experiences</button></div>
+    </div>
+  </section>
+
+  <div class="stats-bar">
+    <div class="stat-item"><div class="stat-num">14</div><div class="stat-label">Years Operating</div></div>
+    <div class="stat-item"><div class="stat-num">3,200+</div><div class="stat-label">Guests Hosted</div></div>
+    <div class="stat-item"><div class="stat-num">28</div><div class="stat-label">Destinations</div></div>
+    <div class="stat-item"><div class="stat-num">4.9</div><div class="stat-label">Average Rating</div></div>
+  </div>
+
+  <section id="home-reviews">
+    <div class="reviews-preview">
+      <p class="eyebrow">Guest Voices</p>
+      <h2 class="sec-title">What Our Guests <em>Say</em></h2>
+      <div class="divider"></div>
+      <div class="reviews-grid" id="home-reviews-grid"></div>
+      <div style="margin-top:32px;text-align:center">
+        <button class="btn-outline-dark" onclick="goPage('experiences')">Leave a Review</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="cta-band">
+    <h2>Ready for Your <em>African Chapter?</em></h2>
+    <p>Every journey begins with a conversation. Tell us your dream — we'll craft the rest.</p>
+    <div class="cta-btns">
+      <button class="btn-gold" onclick="goPage('contact')">Start Planning</button>
+      <button class="btn-outline-light" onclick="goPage('gallery')">View the Gallery</button>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <div class="footer-brand-name">PolarVista Safaris</div>
+          <p class="footer-brand-desc">Crafting extraordinary journeys across Africa's most iconic and hidden landscapes since 2010.</p>
+        </div>
+        <div class="footer-col">
+          <p class="footer-col-title">Explore</p>
+          <a onclick="goPage('experiences')">Safari & Wildlife</a>
+          <a onclick="goPage('experiences')">Cultural Journeys</a>
+          <a onclick="goPage('experiences')">Highland Treks</a>
+          <a onclick="goPage('gallery')">Photo Gallery</a>
+        </div>
+        <div class="footer-col">
+          <p class="footer-col-title">Company</p>
+          <a onclick="goPage('about')">Our Story</a>
+          <a onclick="goPage('about')">Our Team</a>
+          <a onclick="goPage('blog')">The Journal</a>
+          <a onclick="goPage('contact')">Contact Us</a>
+        </div>
+        <div class="footer-col">
+          <p class="footer-col-title">Legal</p>
+          <a>Privacy Policy</a>
+          <a>Terms of Service</a>
+          <a onclick="openAdminLogin()">Admin Access</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 PolarVista Safaris. All rights reserved.</p>
+        <p>Nairobi, Kenya</p>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ════════════════════════════════════
+     EXPERIENCES PAGE
+════════════════════════════════════ -->
+<div class="page" id="page-experiences">
+  <div class="page-hero">
+    <div class="page-hero-bg" style="background-image:url('https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=1600&q=80')"></div>
+    <div class="page-hero-overlay"></div>
+    <div class="page-hero-content">
+      <p class="eyebrow" style="color:var(--gold)">Our Experiences</p>
+      <h1>Journeys <em>Crafted</em><br>for the Curious</h1>
+    </div>
+  </div>
+
+  <div class="exp-full-grid">
+    <div class="exp-full-card">
+      <img src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=1400&q=80" alt="Safari">
+      <div class="exp-full-overlay">
+        <p class="exp-full-tag">Wildlife & Safari</p>
+        <h2 class="exp-full-name">The Great Migration & Beyond</h2>
+        <p class="exp-full-desc">Witness 1.5 million wildebeest thunder across the Mara River. Track the Big Five through Amboseli's open savannah with the silhouette of Kilimanjaro on the horizon. Our wildlife journeys are led by naturalists who have spent decades reading the land.</p>
+        <button class="exp-full-cta btn-gold" onclick="goPage('contact')" style="margin-top:20px;width:fit-content">Inquire About This Experience</button>
+      </div>
+    </div>
+    <div class="exp-full-card">
+      <img src="https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=800&q=80" alt="Cultural">
+      <div class="exp-full-overlay">
+        <p class="exp-full-tag">Cultural Heritage</p>
+        <h2 class="exp-full-name">Living Traditions</h2>
+        <p class="exp-full-desc">Spend nights with Maasai elders, sail a hand-carved dhow along the Swahili coast, and wander Lamu's coral-stone streets with a local historian.</p>
+        <button class="exp-full-cta btn-gold" onclick="goPage('contact')" style="margin-top:16px;width:fit-content;font-size:10px">Inquire</button>
+      </div>
+    </div>
+    <div class="exp-full-card">
+      <img src="https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?w=800&q=80" alt="Hiking">
+      <div class="exp-full-overlay">
+        <p class="exp-full-tag">Adventure & Trekking</p>
+        <h2 class="exp-full-name">Highland Expeditions</h2>
+        <p class="exp-full-desc">Ascend Mount Kenya through bamboo forest and alpine moorland. Trek the Aberdares in the mist. These routes are for those who prefer to earn their views.</p>
+        <button class="exp-full-cta btn-gold" onclick="goPage('contact')" style="margin-top:16px;width:fit-content;font-size:10px">Inquire</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- REVIEWS SECTION -->
+  <section id="exp-reviews">
+    <div class="sec-inner">
+      <div class="reviews-header">
+        <div>
+          <p class="eyebrow">Guest Reviews</p>
+          <h2 class="sec-title">Voices from <em>the Field</em></h2>
+          <div class="divider"></div>
+        </div>
+        <div class="rating-summary">
+          <div class="rating-big" id="avg-rating-el">4.9</div>
+          <div style="display:flex;gap:3px;justify-content:flex-end;margin:6px 0" id="avg-stars-el"></div>
+          <div class="rating-label" id="review-count-el">0 reviews</div>
+        </div>
+      </div>
+      <div class="reviews-list" id="reviews-list-pub"></div>
+
+      <!-- Write Review -->
+      <div class="write-review">
+        <h3>Share Your Experience</h3>
+        <p>Your story helps future travellers discover Africa through PolarVista eyes.</p>
+        <div class="star-picker" id="star-picker">
+          <span class="star-pick" data-val="1">★</span>
+          <span class="star-pick" data-val="2">★</span>
+          <span class="star-pick" data-val="3">★</span>
+          <span class="star-pick" data-val="4">★</span>
+          <span class="star-pick" data-val="5">★</span>
+        </div>
+        <div class="rev-form-row">
+          <div class="rev-group"><label>Your Name</label><input id="rev-name" type="text" placeholder="Jane Doe"></div>
+          <div class="rev-group"><label>Tour / Experience</label>
+            <select id="rev-tour">
+              <option value="">Select experience…</option>
+              <option>Safari & Wildlife</option>
+              <option>Cultural Journey</option>
+              <option>Highland Trek</option>
+              <option>Custom Itinerary</option>
+            </select>
+          </div>
+        </div>
+        <div class="rev-group"><label>Your Review</label><textarea id="rev-body" placeholder="Tell us about your journey…" rows="4"></textarea></div>
+        <button class="btn-gold" onclick="submitReview()">Submit Review</button>
+        <p style="font-size:11px;color:rgba(245,240,232,.3);margin-top:12px">Reviews are published after approval.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="cta-band">
+    <h2>Ready to <em>Begin?</em></h2>
+    <p>Contact our team and we'll tailor an experience just for you.</p>
+    <div class="cta-btns"><button class="btn-gold" onclick="goPage('contact')">Get in Touch</button></div>
+  </div>
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div><div class="footer-brand-name">PolarVista Safaris</div><p class="footer-brand-desc">Crafting extraordinary journeys across Africa's most iconic and hidden landscapes since 2010.</p></div>
+        <div class="footer-col"><p class="footer-col-title">Pages</p><a onclick="goPage('home')">Home</a><a onclick="goPage('about')">About</a><a onclick="goPage('gallery')">Gallery</a><a onclick="goPage('blog')">Journal</a></div>
+        <div class="footer-col"><p class="footer-col-title">Contact</p><a id="foot-email-exp" href="#">Email Us</a><a id="foot-wa-exp" href="#" target="_blank">WhatsApp</a></div>
+        <div class="footer-col"><p class="footer-col-title">Legal</p><a>Privacy Policy</a><a onclick="openAdminLogin()">Admin</a></div>
+      </div>
+      <div class="footer-bottom"><p>© 2025 PolarVista Safaris.</p></div>
+    </div>
+  </footer>
+</div>
+
+<!-- ════════════════════════════════════
+     ABOUT PAGE
+════════════════════════════════════ -->
+<div class="page" id="page-about">
+  <div class="page-hero">
+    <div class="page-hero-bg" style="background-image:url('https://images.unsplash.com/photo-1601918774946-25832a4be0d6?w=1600&q=80')"></div>
+    <div class="page-hero-overlay"></div>
+    <div class="page-hero-content">
+      <p class="eyebrow" style="color:var(--gold)">Who We Are</p>
+      <h1>People Who <em>Live</em><br>for Africa</h1>
+    </div>
+  </div>
+
+  <section id="about-story" class="sec">
+    <div class="sec-inner">
+      <div class="about-grid">
+        <div class="about-img-wrap">
+          <img src="https://images.unsplash.com/photo-1601918774946-25832a4be0d6?w=800&q=80" alt="About">
+          <img class="about-img-accent" src="https://images.unsplash.com/photo-1550358864-518f202c02ba?w=400&q=80" alt="">
+        </div>
+        <div>
+          <p class="eyebrow">Our Story</p>
+          <h2 class="sec-title" id="about-title-pub">Born from <em>Passion</em></h2>
+          <div class="divider"></div>
+          <p class="sec-sub" id="about-story-pub">PolarVista Safaris was founded by a small team of guides who fell in love with Africa's landscapes long before they became professionals. Our philosophy is simple: slow down, look closer, and let the land speak.</p>
+          <div style="margin-top:32px"><button class="btn-outline-dark" onclick="goPage('contact')">Plan a Journey with Us</button></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-mv">
+    <div class="sec-inner">
+      <p class="eyebrow" style="color:var(--gold)">What Drives Us</p>
+      <h2 class="sec-title" style="color:var(--cream)">Mission & <em>Vision</em></h2>
+      <div class="divider"></div>
+      <div class="mv-grid">
+        <div class="mv-box">
+          <p class="mv-label">Our Mission</p>
+          <p id="about-mission-pub">To craft deeply authentic African experiences that connect travellers with the land, its people, and wildlife in a meaningful and responsible way.</p>
+        </div>
+        <div class="mv-box">
+          <p class="mv-label">Our Vision</p>
+          <p id="about-vision-pub">A world where travel nurtures both the human spirit and the wild places that inspire it.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="team-sec">
+    <div class="sec-inner">
+      <p class="eyebrow">The People Behind the Journeys</p>
+      <h2 class="sec-title">Our <em>Team</em></h2>
+      <div class="divider"></div>
+      <div class="team-grid-pub" id="team-pub-grid"></div>
+    </div>
+  </section>
+
+  <div class="cta-band">
+    <h2>Come Journey <em>With Us</em></h2>
+    <p>Our team is ready to craft your perfect African experience.</p>
+    <div class="cta-btns"><button class="btn-gold" onclick="goPage('contact')">Contact the Team</button></div>
+  </div>
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div><div class="footer-brand-name">PolarVista Safaris</div><p class="footer-brand-desc">Crafting extraordinary journeys across Africa's most iconic and hidden landscapes since 2010.</p></div>
+        <div class="footer-col"><p class="footer-col-title">Pages</p><a onclick="goPage('home')">Home</a><a onclick="goPage('experiences')">Experiences</a><a onclick="goPage('gallery')">Gallery</a><a onclick="goPage('blog')">Journal</a></div>
+        <div class="footer-col"><p class="footer-col-title">Contact</p><a id="foot-email-abt" href="#">Email Us</a><a id="foot-wa-abt" href="#" target="_blank">WhatsApp</a></div>
+        <div class="footer-col"><p class="footer-col-title">Legal</p><a>Privacy Policy</a><a onclick="openAdminLogin()">Admin</a></div>
+      </div>
+      <div class="footer-bottom"><p>© 2025 PolarVista Safaris.</p></div>
+    </div>
+  </footer>
+</div>
+
+<!-- ════════════════════════════════════
+     GALLERY PAGE
+════════════════════════════════════ -->
+<div class="page" id="page-gallery">
+  <div class="page-hero">
+    <div class="page-hero-bg" style="background-image:url('https://images.unsplash.com/photo-1516426122078-c23e76319801?w=1600&q=80')"></div>
+    <div class="page-hero-overlay"></div>
+    <div class="page-hero-content">
+      <p class="eyebrow" style="color:var(--gold)">Visual Diary</p>
+      <h1>Moments <em>Captured</em><br>in the Wild</h1>
+    </div>
+  </div>
+
+  <section id="gallery-events" class="sec">
+    <div class="sec-inner">
+      <div class="events-header">
+        <div>
+          <p class="eyebrow">Our Events & Tours</p>
+          <h2 class="sec-title">Photography <em>Albums</em></h2>
+          <div class="divider" style="margin-bottom:0"></div>
+        </div>
+        <p style="font-size:13px;color:var(--text-l);font-weight:300;max-width:280px;text-align:right;line-height:1.8">Each album captures a different journey. Click any photo to view full size.</p>
+      </div>
+      <div class="adm-event-list" id="gallery-events-pub"></div>
+    </div>
+  </section>
+
+  <div class="cta-band">
+    <h2>Your Journey <em>Awaits</em></h2>
+    <p>Let's add your story to our gallery.</p>
+    <div class="cta-btns"><button class="btn-gold" onclick="goPage('contact')">Plan Your Safari</button></div>
+  </div>
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div><div class="footer-brand-name">PolarVista Safaris</div><p class="footer-brand-desc">Crafting extraordinary journeys across Africa's most iconic and hidden landscapes since 2010.</p></div>
+        <div class="footer-col"><p class="footer-col-title">Pages</p><a onclick="goPage('home')">Home</a><a onclick="goPage('experiences')">Experiences</a><a onclick="goPage('about')">About</a><a onclick="goPage('blog')">Journal</a></div>
+        <div class="footer-col"><p class="footer-col-title">Contact</p><a id="foot-email-gal" href="#">Email Us</a><a id="foot-wa-gal" href="#" target="_blank">WhatsApp</a></div>
+        <div class="footer-col"><p class="footer-col-title">Legal</p><a>Privacy Policy</a><a onclick="openAdminLogin()">Admin</a></div>
+      </div>
+      <div class="footer-bottom"><p>© 2025 PolarVista Safaris.</p></div>
+    </div>
+  </footer>
+</div>
+
+<!-- ════════════════════════════════════
+     BLOG PAGE
+════════════════════════════════════ -->
+<div class="page" id="page-blog">
+  <div class="page-hero">
+    <div class="page-hero-bg" style="background-image:url('https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=1600&q=80')"></div>
+    <div class="page-hero-overlay"></div>
+    <div class="page-hero-content">
+      <p class="eyebrow" style="color:var(--gold)">The Journal</p>
+      <h1>Stories from <em>the Field</em></h1>
+    </div>
+  </div>
+
+  <section id="blog-list" class="sec">
+    <div class="sec-inner">
+      <p class="eyebrow">Latest Articles</p>
+      <h2 class="sec-title">Field <em>Notes</em></h2>
+      <div class="divider"></div>
+      <div class="blog-grid-full" id="blog-pub-grid"></div>
+    </div>
+  </section>
+
+  <div class="cta-band">
+    <h2>Ready to Write <em>Your Story?</em></h2>
+    <p>Get in touch and we'll craft your perfect African chapter.</p>
+    <div class="cta-btns"><button class="btn-gold" onclick="goPage('contact')">Contact Us</button></div>
+  </div>
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div><div class="footer-brand-name">PolarVista Safaris</div><p class="footer-brand-desc">Crafting extraordinary journeys across Africa's most iconic and hidden landscapes since 2010.</p></div>
+        <div class="footer-col"><p class="footer-col-title">Pages</p><a onclick="goPage('home')">Home</a><a onclick="goPage('experiences')">Experiences</a><a onclick="goPage('about')">About</a><a onclick="goPage('gallery')">Gallery</a></div>
+        <div class="footer-col"><p class="footer-col-title">Contact</p><a id="foot-email-blg" href="#">Email Us</a><a id="foot-wa-blg" href="#" target="_blank">WhatsApp</a></div>
+        <div class="footer-col"><p class="footer-col-title">Legal</p><a>Privacy Policy</a><a onclick="openAdminLogin()">Admin</a></div>
+      </div>
+      <div class="footer-bottom"><p>© 2025 PolarVista Safaris.</p></div>
+    </div>
+  </footer>
+</div>
+
+<!-- ════════════════════════════════════
+     CONTACT PAGE
+════════════════════════════════════ -->
+<div class="page" id="page-contact">
+  <div class="page-hero">
+    <div class="page-hero-bg" style="background-image:url('https://images.unsplash.com/photo-1516426122078-c23e76319801?w=1600&q=80')"></div>
+    <div class="page-hero-overlay"></div>
+    <div class="page-hero-content">
+      <p class="eyebrow" style="color:var(--gold)">Get in Touch</p>
+      <h1>Begin Your <em>Journey</em></h1>
+    </div>
+  </div>
+
+  <section id="contact-sec" class="sec">
+    <div class="contact-grid">
+      <div class="contact-info-col">
+        <p class="eyebrow">Reach Out</p>
+        <h2 class="sec-title" style="color:var(--cream)">Let's <em>Talk</em></h2>
+        <div class="divider"></div>
+        <p class="sec-sub" style="color:rgba(245,240,232,.52);margin-bottom:40px">Our team responds within 24 hours and every inquiry is handled personally. No automated replies — just real people who love what they do.</p>
+        <div class="c-detail"><div class="c-icon">✉</div><div class="c-detail-text"><p>Email</p><p id="c-email-el">hello@polarvistasafaris.com</p></div></div>
+        <div class="c-detail"><div class="c-icon">✆</div><div class="c-detail-text"><p>Phone</p><p id="c-phone-el">+254 700 000 000</p></div></div>
+        <div class="c-detail"><div class="c-icon">⊙</div><div class="c-detail-text"><p>Address</p><p id="c-address-el">Karen, Nairobi, Kenya</p></div></div>
+        <div class="c-detail"><div class="c-icon">◷</div><div class="c-detail-text"><p>Office Hours</p><p id="c-hours-el">Mon – Sat · 8am – 6pm EAT</p></div></div>
+      </div>
+      <div class="contact-form-col">
+        <div class="cf-row">
+          <div class="cf-group"><label>First Name</label><input type="text" placeholder="Jane"></div>
+          <div class="cf-group"><label>Last Name</label><input type="text" placeholder="Doe"></div>
+        </div>
+        <div class="cf-group"><label>Email Address</label><input type="email" placeholder="jane@example.com"></div>
+        <div class="cf-group"><label>Experience Interest</label>
+          <select>
+            <option value="">Select a type…</option>
+            <option>Safari & Wildlife</option>
+            <option>Cultural Journey</option>
+            <option>Highland Trek</option>
+            <option>Custom Itinerary</option>
+          </select>
+        </div>
+        <div class="cf-group"><label>Preferred Travel Dates</label><input type="text" placeholder="e.g. July 2025, flexible"></div>
+        <div class="cf-group"><label>Group Size</label><input type="text" placeholder="e.g. 2 adults, 1 child"></div>
+        <div class="cf-group"><label>Your Message</label><textarea placeholder="Tell us about your dream trip…" rows="5"></textarea></div>
+        <button class="btn-submit-full" onclick="submitForm()">Send Inquiry</button>
+        <p class="form-note-c">No commitments — this is just the start of a conversation.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div><div class="footer-brand-name">PolarVista Safaris</div><p class="footer-brand-desc">Crafting extraordinary journeys across Africa's most iconic and hidden landscapes since 2010.</p></div>
+        <div class="footer-col"><p class="footer-col-title">Pages</p><a onclick="goPage('home')">Home</a><a onclick="goPage('experiences')">Experiences</a><a onclick="goPage('about')">About</a><a onclick="goPage('gallery')">Gallery</a></div>
+        <div class="footer-col"><p class="footer-col-title">Contact</p><a id="foot-email-cnt" href="#">Email Us</a><a id="foot-wa-cnt" href="#" target="_blank">WhatsApp</a></div>
+        <div class="footer-col"><p class="footer-col-title">Legal</p><a>Privacy Policy</a><a onclick="openAdminLogin()">Admin</a></div>
+      </div>
+      <div class="footer-bottom"><p>© 2025 PolarVista Safaris.</p></div>
+    </div>
+  </footer>
+</div>
+
+<!-- WhatsApp -->
+<a id="wa-btn" href="#" target="_blank">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<!-- Lightbox -->
+<div class="lb-bg" id="lb-bg" onclick="closeLb(event)">
+  <button class="lb-close" onclick="closeLb()">×</button>
+  <img id="lb-img" src="" alt="">
+</div>
+
+<!-- Blog Modal -->
+<div class="modal-bg" id="blog-modal" onclick="closeBlogModal(event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeBlogModalDirect()">×</button>
+    <img class="modal-img-full" id="modal-img" src="" alt="">
+    <div class="modal-body">
+      <p class="blog-cat-tag" id="modal-cat"></p>
+      <h2 id="modal-title"></h2>
+      <div id="modal-content"></div>
+      <div class="blog-meta-pub"><span id="modal-author"></span><span class="dot"></span><span id="modal-date"></span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<!-- ════════════════════════════════════
+     ADMIN LOGIN
+════════════════════════════════════ -->
+<div id="admin-login">
+  <div class="login-box">
+    <h2>Admin Access</h2>
+    <p>PolarVista Safaris Dashboard</p>
+    <div class="cf-group"><label style="color:var(--gold)">Username</label><input id="login-user" type="text" placeholder="admin" style="width:100%;background:rgba(245,240,232,.05);border:1px solid rgba(201,169,110,.2);color:rgba(245,240,232,.85);font-family:var(--fb);font-size:14px;font-weight:300;padding:13px 15px;outline:none"></div>
+    <div class="cf-group"><label style="color:var(--gold)">Password</label><input id="login-pass" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()" style="width:100%;background:rgba(245,240,232,.05);border:1px solid rgba(201,169,110,.2);color:rgba(245,240,232,.85);font-family:var(--fb);font-size:14px;font-weight:300;padding:13px 15px;outline:none"></div>
+    <p id="login-error" class="login-error">Invalid credentials · Try admin / admin123</p>
+    <button class="btn-submit-full" onclick="doLogin()" style="margin-top:20px">Sign In</button>
+    <p style="text-align:center;margin-top:16px;font-size:12px;color:rgba(245,240,232,.28);cursor:pointer" onclick="closeAdminLogin()">← Back to site</p>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     ADMIN DASHBOARD
+════════════════════════════════════ -->
+<div id="admin-dash">
+  <aside class="adm-sidebar">
+    <div class="adm-logo">PolarVista<span>Admin Dashboard</span></div>
+    <nav class="adm-nav">
+      <button class="adm-nav-btn active" onclick="admNav('panel-contact',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8 19.79 19.79 0 01.07 1.17 2 2 0 012 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        Contact Info
+      </button>
+      <button class="adm-nav-btn" onclick="admNav('panel-about',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+        About Page
+      </button>
+      <button class="adm-nav-btn" onclick="admNav('panel-team',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        Team
+      </button>
+      <button class="adm-nav-btn" onclick="admNav('panel-gallery',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg>
+        Gallery Events
+      </button>
+      <button class="adm-nav-btn" onclick="admNav('panel-blog',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        Blog Posts
+      </button>
+      <button class="adm-nav-btn" onclick="admNav('panel-reviews',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        Reviews
+      </button>
+    </nav>
+    <button class="adm-logout-btn" onclick="adminLogout()">← Log out</button>
+  </aside>
+
+  <main class="adm-main">
+
+    <!-- CONTACT PANEL -->
+    <div id="panel-contact" class="adm-panel active">
+      <div class="adm-header"><h1>Contact Information</h1><p>Displayed on the public contact page and footer.</p></div>
+      <div class="adm-card">
+        <h3>Contact Details</h3>
+        <div class="adm-form-row">
+          <div class="adm-group"><label>Email</label><input id="adm-email" type="email"></div>
+          <div class="adm-group"><label>Phone</label><input id="adm-phone" type="tel"></div>
+        </div>
+        <div class="adm-group"><label>Address</label><input id="adm-address" type="text"></div>
+        <div class="adm-form-row">
+          <div class="adm-group"><label>Office Hours</label><input id="adm-hours" type="text"></div>
+          <div class="adm-group"><label>WhatsApp Number (with country code)</label><input id="adm-wa" type="text"></div>
+        </div>
+        <div class="adm-actions"><button class="adm-btn" onclick="saveContact()">Save Changes</button></div>
+      </div>
+    </div>
+
+    <!-- ABOUT PANEL -->
+    <div id="panel-about" class="adm-panel">
+      <div class="adm-header"><h1>About Page</h1><p>Edit story, mission, and vision sections.</p></div>
+      <div class="adm-card">
+        <h3>Our Story</h3>
+        <div class="adm-group"><label>Section Headline</label><input id="adm-about-title" type="text"></div>
+        <div class="adm-group"><label>Story Text</label><textarea id="adm-about-story" rows="5"></textarea></div>
+        <div class="adm-actions"><button class="adm-btn" onclick="saveAbout()">Save Story</button></div>
+      </div>
+      <div class="adm-card">
+        <h3>Mission & Vision</h3>
+        <div class="adm-group"><label>Mission Statement</label><textarea id="adm-mission" rows="3"></textarea></div>
+        <div class="adm-group"><label>Vision Statement</label><textarea id="adm-vision" rows="3"></textarea></div>
+        <div class="adm-actions"><button class="adm-btn" onclick="saveMission()">Save Mission & Vision</button></div>
+      </div>
+    </div>
+
+    <!-- TEAM PANEL -->
+    <div id="panel-team" class="adm-panel">
+      <div class="adm-header"><h1>Team Members</h1><p>Up to 4 members displayed on the About page.</p></div>
+      <div id="team-editor" style="display:grid;grid-template-columns:1fr 1fr;gap:18px"></div>
+    </div>
+
+    <!-- GALLERY EVENTS PANEL -->
+    <div id="panel-gallery" class="adm-panel">
+      <div class="adm-header"><h1>Gallery Events</h1><p>Each event is a named photo album (e.g. "Mara 2025"). Add images and a Google Drive link per event.</p></div>
+      <div class="adm-card">
+        <h3>Create New Event Album</h3>
+        <div class="adm-form-row">
+          <div class="adm-group"><label>Event Title</label><input id="new-event-title" type="text" placeholder="e.g. Mara Migration 2025"></div>
+          <div class="adm-group"><label>Date / Season</label><input id="new-event-date" type="text" placeholder="e.g. July 2025"></div>
+        </div>
+        <div class="adm-group"><label>Google Drive Link (optional — can add later)</label><input id="new-event-drive" type="url" placeholder="https://drive.google.com/…"></div>
+        <div class="adm-actions"><button class="adm-btn" onclick="createEvent()">Create Album</button></div>
+      </div>
+      <div id="adm-events-list"></div>
+    </div>
+
+    <!-- BLOG PANEL -->
+    <div id="panel-blog" class="adm-panel">
+      <div class="adm-header"><h1>Blog Posts</h1><p>Manage all posts. Create new entries or edit existing ones.</p></div>
+      <div class="adm-card">
+        <h3>Create New Post</h3>
+        <div class="adm-form-row">
+          <div class="adm-group"><label>Title</label><input id="np-title" type="text" placeholder="Post title"></div>
+          <div class="adm-group"><label>Category</label><input id="np-cat" type="text" placeholder="e.g. Wildlife"></div>
+        </div>
+        <div class="adm-form-row">
+          <div class="adm-group"><label>Author</label><input id="np-author" type="text" placeholder="Author name"></div>
+          <div class="adm-group"><label>Date</label><input id="np-date" type="text" placeholder="Month YYYY"></div>
+        </div>
+        <div class="adm-group"><label>Cover Image URL</label><input id="np-img" type="url" placeholder="https://…"></div>
+        <div class="adm-group"><label>Excerpt (shown on blog listing)</label><textarea id="np-exc" rows="2" placeholder="Short teaser text…"></textarea></div>
+        <div class="adm-group"><label>Full Body (separate paragraphs with a blank line)</label><textarea id="np-body" rows="7" placeholder="Write your full post here…"></textarea></div>
+        <div class="adm-actions">
+          <button class="adm-btn" onclick="createBlogPost(false)">Save as Draft</button>
+          <button class="adm-btn-ghost" onclick="createBlogPost(true)">Save & Publish</button>
+        </div>
+      </div>
+      <div id="blog-posts-list"></div>
+    </div>
+
+    <!-- REVIEWS PANEL -->
+    <div id="panel-reviews" class="adm-panel">
+      <div class="adm-header"><h1>Guest Reviews</h1><p>Approve or reject pending reviews before they appear publicly.</p></div>
+      <div class="adm-card">
+        <h3>Pending Approval</h3>
+        <div id="reviews-pending-list"></div>
+      </div>
+      <div class="adm-card">
+        <h3>Published Reviews</h3>
+        <div id="reviews-approved-list"></div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+// ════════════════════════════════════════
+//  DATA
+// ════════════════════════════════════════
+const KEY='pvs2';
+const DEF={
+  contact:{email:'hello@polarvistasafaris.com',phone:'+254 700 000 000',address:'Karen, Nairobi, Kenya',hours:'Mon – Sat · 8am – 6pm EAT',wa:'+254700000000'},
+  about:{title:'Born from Passion',story:'PolarVista Safaris was founded by a small team of guides who fell in love with Africa\'s landscapes long before they became professionals. Our philosophy is simple: slow down, look closer, and let the land speak.',mission:'To craft deeply authentic African experiences that connect travellers with the land, its people, and wildlife in a meaningful and responsible way.',vision:'A world where travel nurtures both the human spirit and the wild places that inspire it.'},
+  team:[
+    {name:'James Kariuki',role:'Founder & Lead Guide',bio:'20+ years guiding across East Africa. Expert in wildlife behaviour and Swahili culture.'},
+    {name:'Amina Hassan',role:'Cultural Experience Director',bio:'Anthropologist and storyteller. She brings communities to life on every journey.'},
+    {name:'David Mwangi',role:'Operations Manager',bio:'Ensures every detail of your trip runs with precision and grace.'},
+    {name:'Sophie Njeri',role:'Client Relations',bio:'Your first point of contact and the warm voice behind every inquiry.'}
+  ],
+  events:[
+    {id:'e1',title:'Mara Migration 2024',date:'August 2024',driveUrl:'',photos:['https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=600&q=70','https://images.unsplash.com/photo-1516426122078-c23e76319801?w=600&q=70','https://images.unsplash.com/photo-1534177616072-ef7dc120449d?w=600&q=70','https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=70','https://images.unsplash.com/photo-1516939884455-1445c8652f83?w=600&q=70']},
+    {id:'e2',title:'Lamu Cultural Safari 2024',date:'November 2024',driveUrl:'',photos:['https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=600&q=70','https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=70','https://images.unsplash.com/photo-1601918774946-25832a4be0d6?w=600&q=70']}
+  ],
+  blog:[
+    {id:'b1',title:'The Great Migration: Timing Your Visit to the Mara',cat:'Wildlife',author:'James Kariuki',date:'March 2025',excerpt:'Every year, 1.5 million wildebeest make one of nature\'s most dramatic journeys. Here is how to witness it at its most spectacular.',img:'https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=600&q=75',body:'The Great Migration is not a single event but a year-round cycle. The most dramatic river crossings occur between July and October when the herds ford the Mara River at great peril from Nile crocodiles.\n\nChoosing the right camp, the right week, and knowing which crossing points to watch from — all of this makes the difference between witnessing the spectacle and missing it by a day.\n\nWe have been guiding migration journeys for over a decade, and the single most important lesson is patience. Arrive early, stay close to the river, and trust the land to deliver.',published:true},
+    {id:'b2',title:'Walking the Aberdares: Kenya\'s Cloud Forest Trails',cat:'Adventure',author:'David Mwangi',date:'February 2025',excerpt:'Few visitors venture into the Aberdare highlands on foot. Those who do are rewarded with misty waterfalls, leopard tracks, and absolute silence.',img:'https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?w=600&q=75',body:'The Aberdares receive far fewer visitors than the Maasai Mara or Amboseli — and that is precisely their magic. The montane forest here rises above 3,000 metres, draped in mist and threaded with black-and-white colobus monkeys.\n\nOur walking routes are guided by rangers who know every ridge and gully. We carry gourmet picnic lunches and lightweight tents for overnight expeditions.\n\nThis is not a tourist trail. It is a genuine wilderness experience for those who want to earn their views.',published:true},
+    {id:'b3',title:'Lamu: The Island That Time Forgot',cat:'Culture',author:'Amina Hassan',date:'January 2025',excerpt:'No cars. No rush. Just narrow coral-stone lanes, dhow sailboats, and 700 years of unbroken Swahili history.',img:'https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=600&q=75',body:'Lamu Old Town is a UNESCO World Heritage Site and one of the best-preserved Swahili settlements on the East African coast. Donkeys are still the primary form of transport. The sea breeze carries the scent of cardamom and salt.\n\nOur Lamu itineraries include private dhow charters, cooking classes with local families, and a guided walk through the old town\'s labyrinthine lanes with a local historian.\n\nIt is a place that asks you to slow down completely — and rewards you richly for doing so.',published:true}
+  ],
+  reviews:[
+    {id:'r1',name:'Sarah & Tom Mitchell',tour:'Safari & Wildlife',rating:5,body:'An extraordinary experience from start to finish. James had an uncanny ability to find the animals. The river crossing we witnessed was something neither of us will ever forget.',date:'Feb 2025',approved:true},
+    {id:'r2',name:'Kofi Asante',tour:'Cultural Journey',rating:5,body:'Amina made the cultural immersion feel completely authentic, never performative. We were invited into a Maasai homestead for dinner. I cannot recommend this highly enough.',date:'Jan 2025',approved:true},
+    {id:'r3',name:'Priya & Dev Sharma',tour:'Highland Trek',rating:5,body:'The Aberdare route is stunning. The guides were exceptional — knowledgeable, funny, and completely trustworthy. Worth every step of the climb.',date:'Mar 2025',approved:true}
+  ]
+};
+function ld(){try{const d=localStorage.getItem(KEY);return d?JSON.parse(d):{...DEF};}catch(e){return{...DEF};}}
+function sd(){try{localStorage.setItem(KEY,JSON.stringify(D));}catch(e){}}
+let D=ld();
+function uid(){return 'id_'+Date.now()+'_'+Math.random().toString(36).slice(2,7);}
+
+// ════════════════════════════════════════
+//  PAGE ROUTING
+// ════════════════════════════════════════
+let curPage='home';
+function goPage(p){
+  document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));
+  document.getElementById('page-'+p).classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+  const nl=document.getElementById('nl-'+p);if(nl)nl.classList.add('active');
+  // nav solid on non-home
+  const nav=document.getElementById('nav');
+  if(p==='home'){nav.classList.remove('solid');}else{nav.classList.add('solid');}
+  curPage=p;
+  window.scrollTo({top:0,behavior:'smooth'});
+  renderPublic();
+}
+
+// ════════════════════════════════════════
+//  NAV
+// ════════════════════════════════════════
+window.addEventListener('scroll',()=>{
+  if(curPage==='home')document.getElementById('nav').classList.toggle('scrolled',window.scrollY>50);
+});
+function toggleMobile(){document.getElementById('mobile-menu').classList.toggle('open')}
+function closeMobile(p){document.getElementById('mobile-menu').classList.remove('open');goPage(p);}
+
+// ════════════════════════════════════════
+//  RENDER PUBLIC
+// ════════════════════════════════════════
+function renderPublic(){
+  const c=D.contact,a=D.about;
+  // Contact details
+  ['c-email-el','c-phone-el','c-address-el','c-hours-el'].forEach(id=>{
+    const el=document.getElementById(id);if(el)el.textContent=id==='c-email-el'?c.email:id==='c-phone-el'?c.phone:id==='c-address-el'?c.address:c.hours;
+  });
+  // WhatsApp
+  const waNum=c.wa.replace(/\D/g,'');
+  document.getElementById('wa-btn').href=`https://wa.me/${waNum}`;
+  // Footer links
+  document.querySelectorAll('[id^="foot-email-"]').forEach(el=>{el.href=`mailto:${c.email}`;el.textContent=c.email;});
+  document.querySelectorAll('[id^="foot-wa-"]').forEach(el=>{el.href=`https://wa.me/${waNum}`;el.textContent='WhatsApp Us';});
+  // About texts
+  const ats=['about-title-pub','about-story-pub','about-mission-pub','about-vision-pub'];
+  const atv=[fmtTitle(a.title),a.story,a.mission,a.vision];
+  ats.forEach((id,i)=>{const el=document.getElementById(id);if(el)el.innerHTML=atv[i];});
+  document.getElementById('home-story-el').textContent=a.story;
+  // Team
+  renderTeamPub();
+  // Gallery events
+  renderGalleryPub();
+  // Blog
+  renderBlogPub();
+  // Reviews
+  renderReviewsPub();
+}
+
+function fmtTitle(t){
+  const words=t.split(' ');
+  const last=words.pop();
+  return `${words.join(' ')} <em>${last}</em>`;
+}
+
+// Team Public
+function renderTeamPub(){
+  const g=document.getElementById('team-pub-grid');if(!g)return;
+  g.innerHTML='';
+  D.team.slice(0,4).forEach(m=>{
+    if(!m.name)return;
+    const initials=m.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+    g.innerHTML+=`<div class="team-card">
+      <div class="team-avatar">${initials}</div>
+      <div class="team-name">${escH(m.name)}</div>
+      <div class="team-role">${escH(m.role)}</div>
+      <p class="team-bio">${escH(m.bio)}</p>
+    </div>`;
+  });
+}
+
+// Gallery Public
+function renderGalleryPub(){
+  const g=document.getElementById('gallery-events-pub');if(!g)return;
+  g.innerHTML='';
+  if(!D.events||!D.events.length){g.innerHTML='<div class="no-events">No events yet — check back soon.</div>';return;}
+  D.events.forEach(ev=>{
+    const photos=(ev.photos||[]).slice(0,9);
+    let gridH='';
+    photos.forEach((src,i)=>{
+      gridH+=`<div class="eg-item" onclick="openLb('${src}')"><img src="${src}" alt="" loading="lazy"></div>`;
+    });
+    const driveBtn=ev.driveUrl?`<a href="${escH(ev.driveUrl)}" target="_blank" class="event-drive-btn">View Full Album on Drive</a>`:'';
+    g.innerHTML+=`<div class="event-block">
+      <div class="event-header">
+        <div class="event-title-wrap">
+          <div class="event-title">${escH(ev.title)}</div>
+          <div class="event-date-label">${escH(ev.date)}</div>
+        </div>
+        <div class="event-links">
+          ${driveBtn}
+          <span class="event-photos-count">${photos.length} photo${photos.length!==1?'s':''}</span>
+        </div>
+      </div>
+      <div class="event-gallery-grid">${gridH}</div>
+    </div>`;
+  });
+}
+
+// Blog Public
+function renderBlogPub(){
+  const g=document.getElementById('blog-pub-grid');if(!g)return;
+  g.innerHTML='';
+  const posts=D.blog.filter(b=>b.published);
+  if(!posts.length){g.innerHTML='<p style="color:var(--text-l);font-style:italic;font-family:var(--ff);font-size:18px">No posts yet.</p>';return;}
+  posts.forEach(p=>{
+    const div=document.createElement('div');
+    div.className='blog-card-pub';
+    div.onclick=()=>openBlogModal(p);
+    div.innerHTML=`<div class="blog-thumb-pub"><img src="${escH(p.img)}" alt="" loading="lazy"></div>
+      <p class="blog-cat-tag">${escH(p.cat)}</p>
+      <h3 class="blog-title-pub">${escH(p.title)}</h3>
+      <p class="blog-excerpt-pub">${escH(p.excerpt)}</p>
+      <div class="blog-meta-pub"><span>${escH(p.author)}</span><span class="dot"></span><span>${escH(p.date)}</span></div>`;
+    g.appendChild(div);
+  });
+}
+
+// Reviews Public
+function renderReviewsPub(){
+  const approved=D.reviews.filter(r=>r.approved);
+  // Home preview (3)
+  const hg=document.getElementById('home-reviews-grid');
+  if(hg){
+    hg.innerHTML='';
+    approved.slice(0,3).forEach(r=>{
+      hg.innerHTML+=`<div class="review-card">
+        <div class="review-stars">${starsHtml(r.rating)}</div>
+        <p class="review-text">"${escH(r.body)}"</p>
+        <div class="review-author">${escH(r.name)}</div>
+        <div class="review-tour">${escH(r.tour)}</div>
+      </div>`;
+    });
+  }
+  // Experiences page all
+  const el=document.getElementById('reviews-list-pub');
+  if(el){
+    el.innerHTML='';
+    approved.forEach(r=>{
+      el.innerHTML+=`<div class="review-card-full">
+        <div class="review-meta">
+          <div><div class="reviewer-name">${escH(r.name)}</div><div class="reviewer-tour">${escH(r.tour)}</div></div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+            <div style="display:flex;gap:3px">${starsHtml(r.rating)}</div>
+            <div class="review-date">${escH(r.date)}</div>
+          </div>
+        </div>
+        <p class="review-body">"${escH(r.body)}"</p>
+      </div>`;
+    });
+  }
+  // Avg rating
+  const avgEl=document.getElementById('avg-rating-el');
+  const cntEl=document.getElementById('review-count-el');
+  const avgStEl=document.getElementById('avg-stars-el');
+  if(avgEl&&approved.length){
+    const avg=approved.reduce((s,r)=>s+r.rating,0)/approved.length;
+    avgEl.textContent=avg.toFixed(1);
+    if(avgStEl)avgStEl.innerHTML=starsHtml(Math.round(avg));
+    if(cntEl)cntEl.textContent=`${approved.length} review${approved.length!==1?'s':''}`;
+  }
+}
+
+function starsHtml(n){
+  let h='';for(let i=1;i<=5;i++)h+=`<span class="star${i>n?' empty':''}">${i<=n?'★':'☆'}</span>`;return h;
+}
+
+// ════════════════════════════════════════
+//  STAR PICKER
+// ════════════════════════════════════════
+let selectedStars=0;
+document.querySelectorAll('.star-pick').forEach(s=>{
+  s.addEventListener('mouseenter',()=>{
+    const v=+s.dataset.val;
+    document.querySelectorAll('.star-pick').forEach(sp=>sp.classList.toggle('hover',+sp.dataset.val<=v));
+  });
+  s.addEventListener('mouseleave',()=>{
+    document.querySelectorAll('.star-pick').forEach(sp=>{sp.classList.remove('hover');sp.classList.toggle('active',+sp.dataset.val<=selectedStars);});
+  });
+  s.addEventListener('click',()=>{
+    selectedStars=+s.dataset.val;
+    document.querySelectorAll('.star-pick').forEach(sp=>sp.classList.toggle('active',+sp.dataset.val<=selectedStars));
+  });
+});
+
+function submitReview(){
+  const name=document.getElementById('rev-name').value.trim();
+  const tour=document.getElementById('rev-tour').value;
+  const body=document.getElementById('rev-body').value.trim();
+  if(!name||!tour||!body||!selectedStars){showToast('Please fill in all fields and select a star rating.');return;}
+  const rev={id:uid(),name,tour,rating:selectedStars,body,date:new Date().toLocaleDateString('en-GB',{month:'short',year:'numeric'}),approved:false};
+  D.reviews.push(rev);sd();
+  document.getElementById('rev-name').value='';
+  document.getElementById('rev-tour').value='';
+  document.getElementById('rev-body').value='';
+  selectedStars=0;
+  document.querySelectorAll('.star-pick').forEach(s=>s.classList.remove('active'));
+  showToast('Thank you! Your review is pending approval.');
+}
+
+// ════════════════════════════════════════
+//  LIGHTBOX & BLOG MODAL
+// ════════════════════════════════════════
+function openLb(src){document.getElementById('lb-img').src=src;document.getElementById('lb-bg').classList.add('open');document.body.style.overflow='hidden';}
+function closeLb(e){if(!e||e.target!==document.getElementById('lb-bg').querySelector('img')){document.getElementById('lb-bg').classList.remove('open');document.body.style.overflow='';}}
+
+function openBlogModal(p){
+  document.getElementById('modal-img').src=p.img;
+  document.getElementById('modal-cat').textContent=p.cat;
+  document.getElementById('modal-title').textContent=p.title;
+  document.getElementById('modal-content').innerHTML=p.body.split('\n\n').map(t=>`<p>${t}</p>`).join('');
+  document.getElementById('modal-author').textContent=p.author;
+  document.getElementById('modal-date').textContent=p.date;
+  document.getElementById('blog-modal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeBlogModal(e){if(e.target===e.currentTarget)closeBlogModalDirect();}
+function closeBlogModalDirect(){document.getElementById('blog-modal').classList.remove('open');document.body.style.overflow='';}
+
+// ════════════════════════════════════════
+//  CONTACT FORM
+// ════════════════════════════════════════
+function submitForm(){showToast('Thank you — we\'ll be in touch within 24 hours.');}
+
+// ════════════════════════════════════════
+//  TOAST
+// ════════════════════════════════════════
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3600);}
+
+// ════════════════════════════════════════
+//  ADMIN AUTH
+// ════════════════════════════════════════
+function openAdminLogin(){document.getElementById('admin-login').classList.add('open');}
+function closeAdminLogin(){document.getElementById('admin-login').classList.remove('open');}
+function doLogin(){
+  const u=document.getElementById('login-user').value.trim();
+  const p=document.getElementById('login-pass').value;
+  const err=document.getElementById('login-error');
+  if(u==='admin'&&p==='admin123'){
+    closeAdminLogin();
+    document.getElementById('admin-dash').classList.add('open');
+    document.body.style.overflow='hidden';
+    populateAdminForms();
+  }else{err.style.display='block';setTimeout(()=>err.style.display='none',3000);}
+}
+function adminLogout(){document.getElementById('admin-dash').classList.remove('open');document.body.style.overflow='';}
+
+// ════════════════════════════════════════
+//  ADMIN NAV
+// ════════════════════════════════════════
+function admNav(panelId,btn){
+  document.querySelectorAll('.adm-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.adm-nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(panelId).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ════════════════════════════════════════
+//  POPULATE ADMIN
+// ════════════════════════════════════════
+function populateAdminForms(){
+  const c=D.contact,a=D.about;
+  ['adm-email','adm-phone','adm-address','adm-hours','adm-wa'].forEach(id=>{
+    const el=document.getElementById(id);if(el)el.value=c[id.replace('adm-','')];
+  });
+  document.getElementById('adm-about-title').value=a.title;
+  document.getElementById('adm-about-story').value=a.story;
+  document.getElementById('adm-mission').value=a.mission||'';
+  document.getElementById('adm-vision').value=a.vision||'';
+  renderTeamEditor();
+  renderAdmEvents();
+  renderBlogEditor();
+  renderReviewsAdmin();
+}
+
+// ════════════════════════════════════════
+//  SAVE CONTACT / ABOUT
+// ════════════════════════════════════════
+function saveContact(){
+  D.contact={
+    email:document.getElementById('adm-email').value,
+    phone:document.getElementById('adm-phone').value,
+    address:document.getElementById('adm-address').value,
+    hours:document.getElementById('adm-hours').value,
+    wa:document.getElementById('adm-wa').value,
+  };
+  sd();renderPublic();showToast('Contact info saved.');
+}
+function saveAbout(){
+  D.about.title=document.getElementById('adm-about-title').value;
+  D.about.story=document.getElementById('adm-about-story').value;
+  sd();renderPublic();showToast('About story saved.');
+}
+function saveMission(){
+  D.about.mission=document.getElementById('adm-mission').value;
+  D.about.vision=document.getElementById('adm-vision').value;
+  sd();renderPublic();showToast('Mission & Vision saved.');
+}
+
+// ════════════════════════════════════════
+//  TEAM EDITOR
+// ════════════════════════════════════════
+function renderTeamEditor(){
+  const g=document.getElementById('team-editor');g.innerHTML='';
+  for(let i=0;i<4;i++){
+    const m=D.team[i]||{name:'',role:'',bio:''};
+    g.innerHTML+=`<div class="adm-card">
+      <h3>Member ${i+1}</h3>
+      <div class="adm-group"><label>Name</label><input id="tm-n-${i}" value="${escH(m.name)}" placeholder="Full name"></div>
+      <div class="adm-group"><label>Role / Title</label><input id="tm-r-${i}" value="${escH(m.role)}" placeholder="e.g. Lead Guide"></div>
+      <div class="adm-group"><label>Bio</label><textarea id="tm-b-${i}" rows="3">${escH(m.bio)}</textarea></div>
+      <div class="adm-actions"><button class="adm-btn" onclick="saveTeam(${i})">Save</button></div>
+    </div>`;
+  }
+}
+function saveTeam(i){
+  if(!D.team[i])D.team[i]={};
+  D.team[i].name=document.getElementById(`tm-n-${i}`).value;
+  D.team[i].role=document.getElementById(`tm-r-${i}`).value;
+  D.team[i].bio=document.getElementById(`tm-b-${i}`).value;
+  sd();renderPublic();showToast(`Team member ${i+1} saved.`);
+}
+
+// ════════════════════════════════════════
+//  GALLERY EVENTS ADMIN
+// ════════════════════════════════════════
+function createEvent(){
+  const title=document.getElementById('new-event-title').value.trim();
+  const date=document.getElementById('new-event-date').value.trim();
+  const drive=document.getElementById('new-event-drive').value.trim();
+  if(!title){showToast('Please enter an event title.');return;}
+  D.events.push({id:uid(),title,date,driveUrl:drive,photos:[]});
+  sd();
+  document.getElementById('new-event-title').value='';
+  document.getElementById('new-event-date').value='';
+  document.getElementById('new-event-drive').value='';
+  renderAdmEvents();renderPublic();showToast(`"${title}" album created.`);
+}
+
+function renderAdmEvents(){
+  const g=document.getElementById('adm-events-list');g.innerHTML='';
+  if(!D.events.length){g.innerHTML='<p style="color:var(--text-l);font-size:13px;padding:12px 0">No events yet. Create one above.</p>';return;}
+  D.events.forEach((ev,ei)=>{
+    const photoGrid=ev.photos.map((src,pi)=>`
+      <div class="adm-eg-item">
+        <img src="${src}" alt="">
+        <button class="adm-eg-del" onclick="delEventPhoto('${ev.id}',${pi})">×</button>
+      </div>`).join('');
+    g.innerHTML+=`<div class="adm-event-card">
+      <div class="adm-event-card-header" onclick="toggleEventBody('ev-body-${ev.id}')">
+        <div>
+          <h4>${escH(ev.title)}</h4>
+          <span>${escH(ev.date)} · ${ev.photos.length} photo${ev.photos.length!==1?'s':''}</span>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="adm-btn-danger" onclick="deleteEvent('${ev.id}');event.stopPropagation()">Delete Album</button>
+          <span style="font-size:18px;color:var(--text-l)">▾</span>
+        </div>
+      </div>
+      <div class="adm-event-card-body" id="ev-body-${ev.id}">
+        <div class="adm-form-row" style="margin-bottom:12px">
+          <div class="adm-group" style="margin-bottom:0"><label>Drive Link</label><input id="ev-drive-${ev.id}" type="url" value="${escH(ev.driveUrl)}" placeholder="https://drive.google.com/…"></div>
+          <div class="adm-group" style="margin-bottom:0;display:flex;align-items:flex-end"><button class="adm-btn" onclick="saveEventDrive('${ev.id}')">Save Link</button></div>
+        </div>
+        <div class="adm-event-mini-grid">${photoGrid}</div>
+        <div class="adm-upload-area" onclick="document.getElementById('ev-upload-${ev.id}').click()">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg>
+          <p>Click to upload photos for this event</p>
+          <input type="file" id="ev-upload-${ev.id}" multiple accept="image/*" onchange="uploadEventPhotos('${ev.id}',this)">
+        </div>
+      </div>
+    </div>`;
+  });
+}
+function toggleEventBody(id){const el=document.getElementById(id);if(el)el.classList.toggle('open');}
+function saveEventDrive(eid){
+  const ev=D.events.find(e=>e.id===eid);if(!ev)return;
+  ev.driveUrl=document.getElementById(`ev-drive-${eid}`).value;
+  sd();renderPublic();showToast('Drive link saved.');
+}
+function deleteEvent(eid){
+  if(!confirm('Delete this entire album?'))return;
+  D.events=D.events.filter(e=>e.id!==eid);
+  sd();renderAdmEvents();renderPublic();showToast('Album deleted.');
+}
+function delEventPhoto(eid,pi){
+  const ev=D.events.find(e=>e.id===eid);if(!ev)return;
+  ev.photos.splice(pi,1);sd();renderAdmEvents();renderPublic();showToast('Photo removed.');
+}
+function uploadEventPhotos(eid,input){
+  const ev=D.events.find(e=>e.id===eid);if(!ev)return;
+  const files=Array.from(input.files);
+  let done=0;
+  files.forEach(f=>{
+    const r=new FileReader();
+    r.onload=e=>{ev.photos.push(e.target.result);done++;
+      if(done===files.length){sd();renderAdmEvents();renderPublic();showToast(`${files.length} photo(s) added to "${ev.title}".`);}
+    };
+    r.readAsDataURL(f);
+  });
+  input.value='';
+}
+
+// ════════════════════════════════════════
+//  BLOG ADMIN
+// ════════════════════════════════════════
+function createBlogPost(publish){
+  const title=document.getElementById('np-title').value.trim();
+  if(!title){showToast('Please enter a post title.');return;}
+  const post={
+    id:uid(),
+    title,
+    cat:document.getElementById('np-cat').value,
+    author:document.getElementById('np-author').value,
+    date:document.getElementById('np-date').value,
+    img:document.getElementById('np-img').value,
+    excerpt:document.getElementById('np-exc').value,
+    body:document.getElementById('np-body').value,
+    published:publish
+  };
+  D.blog.unshift(post);sd();
+  ['np-title','np-cat','np-author','np-date','np-img','np-exc','np-body'].forEach(id=>{document.getElementById(id).value='';});
+  renderBlogEditor();renderPublic();
+  showToast(publish?`"${title}" published.`:`"${title}" saved as draft.`);
+}
+
+function renderBlogEditor(){
+  const c=document.getElementById('blog-posts-list');c.innerHTML='';
+  if(!D.blog.length){c.innerHTML='<p style="color:var(--text-l);font-size:13px;padding:12px 0">No posts yet.</p>';return;}
+  D.blog.forEach(p=>{
+    c.innerHTML+=`<div class="blog-adm-card adm-card" style="margin-bottom:16px">
+      <h4>${escH(p.title)}<span class="pub-badge ${p.published?'badge-pub':'badge-draft'}">${p.published?'Published':'Draft'}</span></h4>
+      <div class="adm-form-row" style="margin-bottom:10px">
+        <div class="adm-group" style="margin-bottom:0"><label>Title</label><input id="ep-t-${p.id}" value="${escH(p.title)}"></div>
+        <div class="adm-group" style="margin-bottom:0"><label>Category</label><input id="ep-c-${p.id}" value="${escH(p.cat)}"></div>
+      </div>
+      <div class="adm-form-row" style="margin-bottom:10px">
+        <div class="adm-group" style="margin-bottom:0"><label>Author</label><input id="ep-a-${p.id}" value="${escH(p.author)}"></div>
+        <div class="adm-group" style="margin-bottom:0"><label>Date</label><input id="ep-d-${p.id}" value="${escH(p.date)}"></div>
+      </div>
+      <div class="adm-group"><label>Cover Image URL</label><input id="ep-i-${p.id}" value="${escH(p.img)}"></div>
+      <div class="adm-group"><label>Excerpt</label><textarea id="ep-e-${p.id}" rows="2">${escH(p.excerpt)}</textarea></div>
+      <div class="adm-group"><label>Body</label><textarea id="ep-b-${p.id}" rows="5">${escH(p.body)}</textarea></div>
+      <div class="adm-actions">
+        <button class="adm-btn" onclick="saveBlogPost('${p.id}')">Save</button>
+        <button class="adm-btn-ghost" onclick="toggleBlogPub('${p.id}')">${p.published?'Unpublish':'Publish'}</button>
+        <button class="adm-btn-danger" onclick="deleteBlogPost('${p.id}')">Delete</button>
+      </div>
+    </div>`;
+  });
+}
+function saveBlogPost(id){
+  const p=D.blog.find(b=>b.id===id);if(!p)return;
+  p.title=document.getElementById(`ep-t-${id}`).value;
+  p.cat=document.getElementById(`ep-c-${id}`).value;
+  p.author=document.getElementById(`ep-a-${id}`).value;
+  p.date=document.getElementById(`ep-d-${id}`).value;
+  p.img=document.getElementById(`ep-i-${id}`).value;
+  p.excerpt=document.getElementById(`ep-e-${id}`).value;
+  p.body=document.getElementById(`ep-b-${id}`).value;
+  sd();renderPublic();renderBlogEditor();showToast('Post saved.');
+}
+function toggleBlogPub(id){
+  const p=D.blog.find(b=>b.id===id);if(!p)return;
+  p.published=!p.published;sd();renderPublic();renderBlogEditor();
+  showToast(p.published?'Post published.':'Post unpublished.');
+}
+function deleteBlogPost(id){
+  if(!confirm('Delete this post?'))return;
+  D.blog=D.blog.filter(b=>b.id!==id);sd();renderPublic();renderBlogEditor();showToast('Post deleted.');
+}
+
+// ════════════════════════════════════════
+//  REVIEWS ADMIN
+// ════════════════════════════════════════
+function renderReviewsAdmin(){
+  const pending=D.reviews.filter(r=>!r.approved);
+  const approved=D.reviews.filter(r=>r.approved);
+  const pl=document.getElementById('reviews-pending-list');
+  const al=document.getElementById('reviews-approved-list');
+  if(pl){
+    pl.innerHTML=pending.length?'':'<p style="color:var(--text-l);font-size:13px">No pending reviews.</p>';
+    pending.forEach(r=>{
+      pl.innerHTML+=`<div class="rev-adm-item">
+        <div class="rev-adm-info">
+          <p>${escH(r.name)} — ${starsHtml(r.rating)}</p>
+          <p>${escH(r.tour)} · ${escH(r.date)}</p>
+          <p>"${escH(r.body)}"</p>
+        </div>
+        <div class="rev-adm-actions">
+          <button class="adm-approve-btn" onclick="approveReview('${r.id}')">Approve</button>
+          <button class="adm-reject-btn" onclick="deleteReview('${r.id}')">Reject</button>
+        </div>
+      </div>`;
+    });
+  }
+  if(al){
+    al.innerHTML=approved.length?'':'<p style="color:var(--text-l);font-size:13px">No published reviews yet.</p>';
+    approved.forEach(r=>{
+      al.innerHTML+=`<div class="rev-adm-item">
+        <div class="rev-adm-info">
+          <p>${escH(r.name)} — ${starsHtml(r.rating)}</p>
+          <p>${escH(r.tour)} · ${escH(r.date)}</p>
+          <p>"${escH(r.body)}"</p>
+        </div>
+        <div class="rev-adm-actions">
+          <button class="adm-reject-btn" onclick="deleteReview('${r.id}')">Remove</button>
+        </div>
+      </div>`;
+    });
+  }
+}
+function approveReview(id){
+  const r=D.reviews.find(r=>r.id===id);if(r)r.approved=true;
+  sd();renderPublic();renderReviewsAdmin();showToast('Review approved and published.');
+}
+function deleteReview(id){
+  D.reviews=D.reviews.filter(r=>r.id!==id);
+  sd();renderPublic();renderReviewsAdmin();showToast('Review removed.');
+}
+
+// ════════════════════════════════════════
+//  UTILS
+// ════════════════════════════════════════
+function escH(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+// ════════════════════════════════════════
+//  INIT
+// ════════════════════════════════════════
+renderPublic();
+goPage('home');
+</script>
+</body>
+</html>
